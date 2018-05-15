@@ -35,7 +35,7 @@ class PartController extends Controller {
         $data['parts'] = $this->partModel->getList($filter);
 
         $url = url('part');
-        //$url = $filterName ?
+
         if ($filterName || (isset($filterStatus) && $filterStatus != '') ) {
 
             $url .= '?filter';
