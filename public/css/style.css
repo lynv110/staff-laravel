@@ -1,0 +1,17 @@
+.alert{
+    padding: 5px 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 5px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+}
+.btn, .buttons, .modal-footer .btn+.btn, button {
+    margin-bottom: 0;
+    margin-right: 0;
+}
+select#sort_permission option.disabled{
+    background: #ddd;
+}
