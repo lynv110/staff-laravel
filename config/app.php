@@ -180,6 +180,11 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
+        App\Providers\StaffServiceProvider::class,
+        App\Providers\ViewComposerServiceProvider::class,
+        App\Providers\FlashHandleServiceProvider::class,
+        App\Providers\HelperHandelServiceProvider::class,
+
     ],
 
     /*
@@ -228,6 +233,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'Staff' => App\Facades\Staff::class,
+        'FlashHandle' => App\Facades\FlashHandle::class,
 
     ],
 

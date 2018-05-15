@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.40 on 2018-05-15 04:15:12.
+ * Generated for Laravel 5.5.40 on 2018-05-15 04:43:26.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -12278,6 +12278,168 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace App\Facades { 
+
+    class Staff {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function login($username, $password)
+        {
+            return \App\Libraries\Staff::login($username, $password);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function logout()
+        {
+            return \App\Libraries\Staff::logout();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isLogged()
+        {
+            return \App\Libraries\Staff::isLogged();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getId()
+        {
+            return \App\Libraries\Staff::getId();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getName()
+        {
+            return \App\Libraries\Staff::getName();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getTelephone()
+        {
+            return \App\Libraries\Staff::getTelephone();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getEmail()
+        {
+            return \App\Libraries\Staff::getEmail();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getChangedPassword()
+        {
+            return \App\Libraries\Staff::getChangedPassword();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function isRoot()
+        {
+            return \App\Libraries\Staff::isRoot();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getUsername()
+        {
+            return \App\Libraries\Staff::getUsername();
+        }
+         
+    }
+
+    class FlashHandle {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function message($message, $level = 'info', $icon = 'info-circle')
+        {
+            return \App\Libraries\FlashHandle::message($message, $level, $icon);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function info($message)
+        {
+            return \App\Libraries\FlashHandle::info($message);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function success($message)
+        {
+            return \App\Libraries\FlashHandle::success($message);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function error($message)
+        {
+            return \App\Libraries\FlashHandle::error($message);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function warning($message)
+        {
+            return \App\Libraries\FlashHandle::warning($message);
+        }
+         
+    }
+ 
+}
+
 namespace Barryvdh\Debugbar { 
 
     class Facade {
@@ -14964,6 +15126,10 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class Staff extends \App\Facades\Staff {}
+
+    class FlashHandle extends \App\Facades\FlashHandle {}
 
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
  
