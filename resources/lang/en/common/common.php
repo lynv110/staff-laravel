@@ -3,10 +3,10 @@
 return [
 
     // Text
-    'txt_logo' => 'QUẢN LÝ NHÂN VIÊN',
-    'txt_profile' => 'Hồ sơ',
-    'txt_logout' => 'Đăng xuất',
-    'txt_footer' => 'Hệ thống quản lý nhân viên',
+    'text_logo' => 'QUẢN LÝ NHÂN VIÊN',
+    'text_profile' => 'Hồ sơ',
+    'text_logout' => 'Đăng xuất',
+    'text_footer' => 'Hệ thống quản lý nhân viên',
 
     // menu
 
