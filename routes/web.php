@@ -47,5 +47,16 @@ Route::middleware('staff_logged')->group(function (){
         Route::post('part/edit/{id}', 'PartController@edit');
 
         Route::any('part/delete', 'PartController@delete');
+
+        // position
+        Route::get('position', 'PositionController@index');
+
+        Route::get('position/add', 'PositionController@getForm');
+        Route::post('position/add', 'PositionController@add');
+
+        Route::get('position/edit/{id}', 'PositionController@getForm');
+        Route::post('position/edit/{id}', 'PositionController@edit');
+
+        Route::any('position/delete', 'PositionController@delete');
     });
 });
