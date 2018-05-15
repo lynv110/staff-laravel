@@ -12,14 +12,14 @@
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> {{ trans('common/common.txt_profile') }}</a></li>
+                        <li><a href="javascript:;"> {{ trans('common/common.text_profile') }}</a></li>
                         <li>
                             <a href="javascript:;">
                                 <span class="badge bg-red pull-right">50%</span>
                                 <span>Settings</span>
                             </a>
                         </li>
-                        <li><a href="{{ url('logout') }}"><i class="fa fa-sign-out pull-right"></i> {{ trans('common/common.txt_logout') }}</a></li>
+                        <li><a href="{{ url('logout') }}"><i class="fa fa-sign-out pull-right"></i> {{ trans('common/common.text_logout') }}</a></li>
                     </ul>
                 </li>
             </ul>

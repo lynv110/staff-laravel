@@ -35,4 +35,17 @@ Route::middleware('staff_logged')->group(function (){
         Route::get('dashboard', 'DashboardController@index')->name('_dashboard');
     });
 
+    // Staff manager
+    Route::namespace('Staff')->group(function(){
+        // part
+        Route::get('part', 'PartController@index');
+
+        Route::get('part/add', 'PartController@getForm');
+        Route::post('part/add', 'PartController@add');
+
+        Route::get('part/edit/{id}', 'PartController@getForm');
+        Route::post('part/edit/{id}', 'PartController@edit');
+
+        Route::any('part/delete', 'PartController@delete');
+    });
 });
