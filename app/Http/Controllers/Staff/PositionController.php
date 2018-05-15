@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Validator;
 class PositionController extends Controller {
     private $positionModel;
 
-    public function __construct() {
-        $this->positionModel = new PositionModel();
+    public function __construct(PositionModel $positionModel) {
+        $this->positionModel = $positionModel;
     }
 
     public function index() {

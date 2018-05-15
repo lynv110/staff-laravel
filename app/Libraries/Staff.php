@@ -19,8 +19,8 @@ class Staff
 
     private $loginModel;
 
-    public function __construct() {
-        $this->loginModel = new LoginModel();
+    public function __construct(LoginModel $loginModel) {
+        $this->loginModel = $loginModel;
         if (Session::has('staff_id') && Session::get('staff_id')){
             $staff = $this->loginModel->getStaffById(Session::get('staff_id'));
             if ($staff){

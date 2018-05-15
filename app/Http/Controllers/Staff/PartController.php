@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Validator;
 class PartController extends Controller {
     private $partModel;
 
-    public function __construct() {
-        $this->partModel = new PartModel();
+    public function __construct(PartModel $partModel) {
+        $this->partModel = $partModel;
     }
 
     public function index() {
