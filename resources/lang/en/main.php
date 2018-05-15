@@ -23,7 +23,7 @@ return [
     'text_option' => 'Lựa chọn',
     'text_sort_permission' => 'Thứ tự quyền chức vụ',
     'text_confirm_delete' => 'Bạn có chắc chắn muốn xóa?',
-
+    'text_reset_pass' => 'Reset password',
     'text_success_form' => 'Cập nhật thành công',
 
     'error_form' => 'Hãy kiểm tra lại các trường và nhập đủ thông tin cần thiết',

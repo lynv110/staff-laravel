@@ -18,6 +18,7 @@
     <link href="{{ asset('vendors/nprogress/nprogress.css') }}" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
     <!-- iCheck -->
     <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
     <!-- Select2 -->
@@ -82,6 +83,7 @@
 <!-- bootstrap-daterangepicker -->
 <script src="{{ asset('vendors/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('vendors/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<script src="{{ asset('vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 <script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
 <script src="{{ asset('vendors/iCheck/icheck.min.js') }}"></script>
 <!-- Custom Theme Scripts -->

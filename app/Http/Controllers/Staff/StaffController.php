@@ -5,20 +5,27 @@ namespace App\Http\Controllers\Staff;
 use App\Facades\Staff;
 use App\Http\Controllers\Controller;
 use App\Models\PartModel;
+use App\Models\PositionModel;
+use App\Models\StaffModel;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 
-class PartController extends Controller {
-    private $partModel;
+class StaffController extends Controller {
 
-    public function __construct(PartModel $partModel) {
+    private $positionModel;
+    private $partModel;
+    private $staffModel;
+
+    public function __construct(PositionModel $positionModel, PartModel $partModel, StaffModel $staffModel) {
+        $this->positionModel = $positionModel;
         $this->partModel = $partModel;
+        $this->staffModel = $staffModel;
     }
 
     public function index() {
         if (!Staff::isRoot()) {
-            flash_error(trans('part.text_permission'));
+            flash_error(trans('staff.text_permission'));
             return redirect(route('_dashboard'));
         }
 
@@ -32,9 +39,9 @@ class PartController extends Controller {
             'order' => 'asc',
         ];
 
-        $data['parts'] = $this->partModel->getList($filter);
+        $data['staffs'] = $this->staffModel->getList($filter);
 
-        $url = url('part');
+        $url = url('staff');
 
         if ($filterName || (isset($filterStatus) && $filterStatus != '') ) {
 
@@ -49,27 +56,27 @@ class PartController extends Controller {
             }
         }
 
-        $data['parts']->setPath($url);
+        $data['staffs']->setPath($url);
 
         $data['filter_name'] = $filterName;
         $data['filter_status'] = $filterStatus;
 
-        return view('staff.part_list', $data);
+        return view('staff.staff_list', $data);
     }
 
     public function getForm($id = null) {
 
         if ($id) {
-            $info = $this->partModel->getById((int)$id);
+            $info = $this->staffModel->getById((int)$id);
         }
 
         if (isset($id)) {
-            $data['action'] = url('part/edit/' . (int)$id);
+            $data['action'] = url('staff/edit/' . (int)$id);
         } else {
-            $data['action'] = url('part/add');
+            $data['action'] = url('staff/add');
         }
 
-        $data['cancel'] = url('part');
+        $data['cancel'] = url('staff');
 
         if (Request::old('name')) {
             $data['name'] = Request::old('name');
@@ -79,13 +86,69 @@ class PartController extends Controller {
             $data['name'] = '';
         }
 
-        if (Request::old('sort_order')) {
-            $data['sort_order'] = Request::old('sort_order');
+        if (Request::old('telephone')) {
+            $data['telephone'] = Request::old('telephone');
         } elseif (!empty($info)) {
-            $data['sort_order'] = $info->sort_order;
+            $data['telephone'] = $info->telephone;
         } else {
-            $data['sort_order'] = 0;
+            $data['telephone'] = '';
         }
+
+        if (Request::old('address')) {
+            $data['address'] = Request::old('address');
+        } elseif (!empty($info)) {
+            $data['address'] = $info->address;
+        } else {
+            $data['address'] = '';
+        }
+
+        if (Request::old('gender')) {
+            $data['gender'] = Request::old('gender');
+        } elseif (!empty($info)) {
+            $data['gender'] = $info->gender;
+        } else {
+            $data['gender'] = 0;
+        }
+
+        if (Request::old('email')) {
+            $data['email'] = Request::old('email');
+        } elseif (!empty($info)) {
+            $data['email'] = $info->email;
+        } else {
+            $data['email'] = '';
+        }
+
+        if (Request::old('avatar')) {
+            $data['avatar'] = Request::old('avatar');
+        } elseif (!empty($info)) {
+            $data['avatar'] = $info->avatar;
+        } else {
+            $data['avatar'] = '';
+        }
+
+        if (Request::old('username')) {
+            $data['username'] = Request::old('username');
+        } elseif (!empty($info)) {
+            $data['username'] = $info->username;
+        } else {
+            $data['username'] = '';
+        }
+
+        if (Request::old('birthday')) {
+            $data['birthday'] = Request::old('birthday');
+        } elseif (!empty($info)) {
+            $data['birthday'] = $info->birthday;
+        } else {
+            $data['birthday'] = '';
+        }
+
+        /*if (Request::old('part')) {
+            $data['part'] = Request::old('part');
+        } elseif (!empty($info)) {
+            $data['part'] = [];//
+        } else {
+            $data['part'] = [];
+        }*/
 
         if (Request::old('status')) {
             $data['status'] = Request::old('status');
@@ -97,7 +160,7 @@ class PartController extends Controller {
 
         $data['text_modified'] = !empty($info) ? trans('main.text_edit') : trans('main.text_add');
 
-        return view('staff.part_form', $data);
+        return view('staff.staff_form', $data);
     }
 
     public function add() {
@@ -106,16 +169,16 @@ class PartController extends Controller {
             flash_error(trans('main.error_form'));
             return Redirect::back()->withErrors($validator)->withInput();
         } else {
-            $id = $this->partModel->add(Request::all());
+            $id = $this->staffModel->add(Request::all());
             flash_success(trans('main.text_success_form'));
 
             switch (Request::input('_redirect')) {
                 case 'add':
-                    return redirect('part/add');
+                    return redirect('staff/add');
                 case 'edit':
-                    return redirect('part/edit/' . $id);
+                    return redirect('staff/edit/' . $id);
                 default:
-                    return redirect('part');
+                    return redirect('staff');
             }
         }
     }
@@ -123,23 +186,23 @@ class PartController extends Controller {
     public function edit($id) {
         if (!(int)$id) {
             flash_error(trans('main.error_error'));
-            return redirect('part');
+            return redirect('staff');
         } else {
             $validator = $this->validateForm();
             if ($validator->fails()) {
                 flash_error(trans('main.error_form'));
                 return Redirect::back()->withErrors($validator)->withInput();
             } else {
-                $this->partModel->edit((int)$id, Request::all());
+                $this->staffModel->edit((int)$id, Request::all());
                 flash_success(trans('main.text_success_form'));
 
                 switch (Request::input('_redirect')) {
                     case 'add':
-                        return redirect('part/add');
+                        return redirect('staff/add');
                     case 'edit':
-                        return redirect('part/edit/' . (int)$id);
+                        return redirect('staff/edit/' . (int)$id);
                     default:
-                        return redirect('part');
+                        return redirect('staff');
                 }
             }
         }
@@ -148,15 +211,15 @@ class PartController extends Controller {
     public function delete() {
         if (!$this->validateDelete()){
             flash_warning(trans('main.error_delete'));
-            return redirect('part');
+            return redirect('staff');
         }
 
         foreach (Request::input('id') as $id) {
-            $this->partModel->delete((int)$id);
+            $this->staffModel->delete((int)$id);
         }
 
         flash_success(trans('main.text_success_form'));
-        return redirect('part');
+        return redirect('staff');
     }
 
     protected function validateForm() {
@@ -165,8 +228,8 @@ class PartController extends Controller {
         ];
 
         $messages = [
-            'name.required' => trans('part.error_name'),
-            'name.between' => trans('part.error_name'),
+            'name.required' => trans('staff.error_name'),
+            'name.between' => trans('staff.error_name'),
         ];
 
         return Validator::make(Request::all(), $rules, $messages);
