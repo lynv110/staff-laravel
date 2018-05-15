@@ -98,7 +98,7 @@ class PositionController extends Controller {
         if (Request::old('status')) {
             $data['status'] = Request::old('status');
         } elseif (!empty($info)) {
-            $data['status'] = $info->name;
+            $data['status'] = $info->status;
         } else {
             $data['status'] = 1;
         }

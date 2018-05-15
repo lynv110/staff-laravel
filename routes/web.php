@@ -37,7 +37,7 @@ Route::middleware('staff_logged')->group(function (){
 
     // Staff manager
     Route::namespace('Staff')->group(function(){
-        // part
+        // Part
         Route::get('part', 'PartController@index');
 
         Route::get('part/add', 'PartController@getForm');
@@ -48,7 +48,7 @@ Route::middleware('staff_logged')->group(function (){
 
         Route::any('part/delete', 'PartController@delete');
 
-        // position
+        // Position
         Route::get('position', 'PositionController@index');
 
         Route::get('position/add', 'PositionController@getForm');
@@ -58,5 +58,16 @@ Route::middleware('staff_logged')->group(function (){
         Route::post('position/edit/{id}', 'PositionController@edit');
 
         Route::any('position/delete', 'PositionController@delete');
+
+        // Staff
+        Route::get('staff', 'StaffController@index');
+
+        Route::get('staff/add', 'StaffController@getForm');
+        Route::post('staff/add', 'StaffController@add');
+
+        Route::get('staff/edit/{id}', 'StaffController@getForm');
+        Route::post('staff/edit/{id}', 'StaffController@edit');
+
+        Route::any('staff/delete', 'StaffController@delete');
     });
 });
