@@ -22,15 +22,20 @@
                             <tr>
                                 <th><input type="checkbox" class="flat check-all"></th>
                                 <th>{{ trans('staff.text_name') }}</th>
+                                <th>{{ trans('staff.text_telephone') }}</th>
+                                <th>{{ trans('staff.text_address') }}</th>
+                                <th>{{ trans('staff.text_email') }}</th>
                                 <th class="text-center">{{ trans('main.text_status') }}</th>
                                 <th class="text-right">{{ trans('main.text_action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr>
-                                <td>
-                                </td>
+                                <td></td>
                                 <td><input type="text" class="form-control" value="{{ $filter_name }}" name="filter_name"></td>
+                                <td><input type="text" class="form-control" value="{{ $filter_telephone }}" name="filter_telephone"></td>
+                                <td></td>
+                                <td><input type="text" class="form-control" value="{{ $filter_email }}" name="filter_email"></td>
                                 <td class="text-center">
                                     <select name="filter_status" id="status" class="form-control col-md-7 col-xs-12" >
                                         <option value=""></option>
@@ -49,6 +54,9 @@
                                             <input type="checkbox" value="{{ $staff->id }}" name="id[]" class="flat check">
                                         </td>
                                         <td>{{ $staff->name }}</td>
+                                        <td>{{ $staff->telephone }}</td>
+                                        <td>{{ $staff->address }}</td>
+                                        <td>{{ $staff->email }}</td>
                                         <td class="text-center">
                                             @if($staff->status)
                                                 <i class="fa fa-check-circle text-primary"></i>
@@ -58,12 +66,13 @@
                                         </td>
                                         <td class="text-right">
                                             <a href="{{ url('staff/edit/' . $staff->id) }}" class="btn btn-sm btn-primary">{{ trans('main.text_edit') }}</a>
+                                            <a href="{{ url('staff/info/' . $staff->id) }}" class="btn btn-sm btn-success">{{ trans('main.text_info') }}</a>
                                         </td>
                                     </tr>
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="4" class="text-center">
+                                    <td colspan="7" class="text-center">
                                         {{ trans('main.text_no_result') }}
                                     </td>
                                 </tr>
@@ -85,10 +94,20 @@
             e.preventDefault();
             href = '{{ url('staff') }}?filter';
             filter_name = $('input[name="filter_name"]').val();
+            filter_telephone = $('input[name="filter_telephone"]').val();
+            filter_email = $('input[name="filter_email"]').val();
             filter_status = $('select[name="filter_status"]').find('option:selected').val();
             filter = false;
             if (filter_name !== ''){
                 href += '&filter_name=' + filter_name;
+                filter = true;
+            }
+            if (filter_email !== ''){
+                href += '&filter_email=' + filter_email;
+                filter = true;
+            }
+            if (filter_telephone !== ''){
+                href += '&filter_telephone=' + filter_telephone;
                 filter = true;
             }
             if (filter_status !== ''){

@@ -30,6 +30,7 @@ class PartController extends Controller {
             'filter_status' => $filterStatus,
             'sort' => 'name',
             'order' => 'asc',
+            'paginate' => true,
         ];
 
         $data['parts'] = $this->partModel->getList($filter);
