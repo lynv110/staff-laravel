@@ -95,7 +95,12 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="avatar">{{ trans('staff.text_avatar') }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="file" name="avatar" value="">
+                                <div class="image">
+                                    <img src="{{ $thumb }}" alt="avatar" class="img-thumbnail img-responsive">
+                                    <button type="button" class="btn btn-primary btn-xs button-upload">{{ trans('main.text_select_image') }}</button>
+                                    <button type="button" class="btn btn-danger btn-xs button-delete">{{ trans('main.text_delete_image') }}</button>
+                                    <input type="hidden" name="avatar" value="" id="avatar">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -190,5 +195,69 @@
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
             return text;
         }
+    </script>
+
+    <script>
+        $('button.button-delete').on('click', function (e) {
+            e.preventDefault();
+            $(this).next('input').val('');
+            $(this).parent().find('img').attr('src', '{{ no_image() }}');
+        });
+
+        $('button.button-upload').on('click', function (e) {
+            var _this = $(this);
+            $('#form-upload').remove();
+            html = '<form style="display: none;" id="form-upload" enctype="multipart/form-data">';
+            html += '<input type="file" name="file" value="" id="fileToUpload">';
+            html += '</form>';
+
+            $('body').prepend(html);
+            $('#form-upload input[name=\'file\']').trigger('click');
+
+            if (typeof timer != 'undefined') {
+                clearInterval(timer);
+            }
+
+            timer = setInterval(function () {
+                if ($('#form-upload input[name=\'file\']').val() != '') {
+                    clearInterval(timer);
+
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: '{{ url('upload-file') }}',
+                        type: 'post',
+                        dataType: 'json',
+                        data: new FormData($('#form-upload')[0]),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $('.button-upload').prop('disabled', true);
+                        },
+                        complete: function () {
+                            $('.button-upload').prop('disabled', false);
+                        },
+                        success: function (json) {
+                            if (json['error']) {
+                                alert(json['error']);
+                            }
+
+                            if (json['success']) {
+                                alert(json['success']);
+                                if (json['info']) {
+                                    _this.parent().find('img').attr('src', json['info']['thumb']);
+                                    _this.parent().find('input').val(json['info']['filename']);
+                                }
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                }
+            }, 500);
+        })
     </script>
 @endpush
