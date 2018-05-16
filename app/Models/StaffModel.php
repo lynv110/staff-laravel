@@ -94,6 +94,8 @@ class StaffModel {
     }
 
     public function delete($id) {
+        DB::table($this->tableStaffPart)->where('staff_id', $id)->delete();
+        DB::table($this->tableStaffPosition)->where('staff_id', $id)->delete();
         DB::table($this->tableStaff)->where('id', $id)->delete();
     }
 
