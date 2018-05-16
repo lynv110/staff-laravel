@@ -207,7 +207,6 @@ class StaffController extends Controller {
             $data['position'] = [];
         }
 
-        //$data['url_upload'] = url('upload');
         $data['positions'] = $this->positionModel->getList();
 
         if (Request::old('status')) {
@@ -264,10 +263,10 @@ class StaffController extends Controller {
 
             $mail_init = [
                 'name_from' => 'Staff Administrator',
+                'name_to' =>  Request::input('name'),
                 'from' => 'admin@staff.com',
-                'to' => Request::input('email'),
+                'to' => html_entity_decode(Request::input('email'), ENT_QUOTES, 'UTF-8'),
                 'subject' => trans('mail.welcome'),
-                'view' => 'email.created_account',
             ];
             $info = [
                 'name' => Request::input('name'),
@@ -276,8 +275,7 @@ class StaffController extends Controller {
                 'password' => Request::input('password'),
             ];
 
-            mail_init($mail_init);
-            mail_send($info);
+            mail_send($mail_init, $info, 'email.created_account');
 
             flash_success(trans('main.text_success_form'));
 
