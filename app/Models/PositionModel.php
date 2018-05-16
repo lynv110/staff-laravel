@@ -33,10 +33,10 @@ class PositionModel
         DB::table($this->tablePosition)->where('id', $id)->delete();
     }
 
-    public function getList($data){
+    public function getList($data = []){
         $where = '1';
 
-        if ($data['filter_name']){
+        if (isset($data['filter_name']) && $data['filter_name']){
             $explodes = explode(' ', $data['filter_name']);
             foreach ($explodes as $explode){
                 $explode = str_replace(['/', '\'', '"'],'', $explode );
@@ -56,7 +56,7 @@ class PositionModel
         ];
 
         $order = '';
-        if ($data['sort']){
+        if (isset($data['sort'])){
             if (in_array($data['sort'], array_keys($data_sort))){
                 $order .= " " . $data_sort[$data['sort']] . "";
             }else{
@@ -66,7 +66,7 @@ class PositionModel
             $order .= " name";
         }
 
-        if ($data['order']){
+        if (isset($data['order']) && $data['order']){
             if (strtolower($data['sort']) == 'desc'){
                 $order .= " DESC";
             }else{
@@ -75,8 +75,10 @@ class PositionModel
         }else{
             $order .= " ASC";
         }
-
-        return DB::table($this->tablePosition)->whereRaw($where)->orderByRaw($order)->paginate(2);
+        if (isset($data['paginate']) && $data['paginate']){
+            return DB::table($this->tablePosition)->whereRaw($where)->orderByRaw($order)->paginate(config('main.limit'));
+        }
+        return DB::table($this->tablePosition)->whereRaw($where)->orderByRaw($order)->get();
     }
 
     public function getById($id){

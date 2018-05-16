@@ -7,7 +7,9 @@
                 <div class="x_title">
                     <h2>{{ $text_modified }}</h2>
                     <div class="pull-right">
-                        <a class="btn btn-danger btn-sm" onclick="$('#form').attr('action', '{{ $action }}'); $('input[name=\'_redirect\']').val('edit'); $('#form').submit();"><i class="fa fa-refresh"></i> {{ trans('main.text_reset_pass') }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        @if($reset_pass)
+                            <a class="btn btn-danger btn-sm" href="{{ url('staff/reset-password/' . $reset_pass) }}"><i class="fa fa-refresh"></i> {{ trans('main.text_reset_pass') }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        @endif
                         <a class="btn btn-primary btn-sm" onclick="$('#form').attr('action', '{{ $action }}'); $('input[name=\'_redirect\']').val('add'); $('#form').submit();"><i class="fa fa-plus"></i> {{ trans('main.text_save_add') }}</a>
                         <a class="btn btn-primary btn-sm" onclick="$('#form').attr('action', '{{ $action }}'); $('input[name=\'_redirect\']').val('edit'); $('#form').submit();"><i class="fa fa-plus"></i> {{ trans('main.text_save_edit') }}</a>
                         <a class="btn btn-primary btn-sm" onclick="$('#form').attr('action', '{{ $action }}'); $('input[name=\'_redirect\']').val('exit'); $('#form').submit();"><i class="fa fa-plus"></i> {{ trans('main.text_save_exit') }}</a>
@@ -58,7 +60,7 @@
                         <div class="form-group">
                             <label for="gender" class="control-label col-md-3 col-sm-3 col-xs-12">{{ trans('staff.text_gender') }}</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select name="status" id="gender" class="form-control col-md-7 col-xs-12" >
+                                <select name="gender" id="gender" class="form-control col-md-7 col-xs-12" >
                                     <option value="0" @if($gender == '0') selected @endif>{{ trans('staff.text_male') }}</option>
                                     <option value="1" @if($gender == '1') selected @endif>{{ trans('staff.text_female') }}</option>
                                     <option value="2" @if($gender == '2') selected @endif>{{ trans('staff.text_other') }}</option>
@@ -82,7 +84,7 @@
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class='input-group date' id='myDatepicker2'>
-                                    <input type="text" id="birthday" class="form-control col-md-7 col-xs-12" name="birthday" value="{{ $birthday }}">
+                                    <input type="text" id="birthday" placeholder="yyyy-mm-dd" class="form-control col-md-7 col-xs-12" name="birthday" value="{{ $birthday }}">
                                     <span class="input-group-addon">
                                        <span class="glyphicon glyphicon-calendar"></span>
                                     </span>
@@ -93,7 +95,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="avatar">{{ trans('staff.text_avatar') }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                avatar
+                                <input type="text" name="avatar" id="avatar" value="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -113,9 +115,9 @@
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <select name="part[]" id="part" class="form-control col-md-7 col-xs-12 select-multiple" multiple="multiple">
-                                    <option value="0">{{ trans('main.text_disabled') }}</option>
-                                    <option value="1" selected>{{ trans('main.text_enabled') }}</option>
-                                    <option value="2" selected>2</option>
+                                    @foreach($parts as $pt)
+                                    <option @if(in_array($pt->id, $part)) selected @endif value="{{ $pt->id }}">{{ $pt->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -124,9 +126,9 @@
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <select name="position[]" id="position" class="form-control col-md-7 col-xs-12 select-multiple" multiple="multiple">
-                                    <option value="0">{{ trans('main.text_disabled') }}</option>
-                                    <option value="1" selected>{{ trans('main.text_enabled') }}</option>
-                                    <option value="2" selected>2</option>
+                                    @foreach($positions as $pos)
+                                        <option @if(in_array($pos->id, $position)) selected @endif value="{{ $pos->id }}">{{ $pos->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -154,7 +156,7 @@
     <script>
         $('.select-multiple').select2();
         $('#birthday').datetimepicker({
-            format: 'DD-MM-YYYY'
+            format: 'YYYY-MM-DD'
         });
     </script>
 @endpush

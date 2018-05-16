@@ -68,6 +68,10 @@ Route::middleware('staff_logged')->group(function (){
         Route::get('staff/edit/{id}', 'StaffController@getForm');
         Route::post('staff/edit/{id}', 'StaffController@edit');
 
+        Route::get('staff/info/{id}', 'StaffController@info');
+
+        Route::get('staff/reset-password/{id}', 'StaffController@resetPassword');
+
         Route::any('staff/delete', 'StaffController@delete');
     });
 });

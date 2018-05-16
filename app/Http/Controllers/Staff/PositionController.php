@@ -30,6 +30,7 @@ class PositionController extends Controller {
             'filter_status' => $filterStatus,
             'sort' => 'name',
             'order' => 'asc',
+            'paginate' => true,
         ];
 
         $data['positions'] = $this->positionModel->getList($filter);
