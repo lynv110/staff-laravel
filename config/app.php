@@ -185,6 +185,7 @@ return [
         App\Providers\FlashHandleServiceProvider::class,
         App\Providers\HelperHandelServiceProvider::class,
         App\Providers\EmailHandleServiceProvider::class,
+        App\Providers\ImageHandleServiceProvider::class,
 
     ],
 

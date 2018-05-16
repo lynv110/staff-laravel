@@ -145,6 +145,14 @@ class StaffController extends Controller {
             $data['avatar'] = '';
         }
 
+        if (Request::old('avatar')) {
+            $data['thumb'] = Request::old('avatar');
+        } elseif (!empty($info)) {
+            $data['thumb'] = image_fit($info->avatar, 100, 100);
+        } else {
+            $data['thumb'] = no_image();
+        }
+
         if (Request::old('username')) {
             $data['username'] = Request::old('username');
         } elseif (!empty($info)) {
@@ -156,7 +164,7 @@ class StaffController extends Controller {
         if (Request::old('password')) {
             $data['password'] = Request::old('password');
         } elseif (!empty($info)) {
-            $data['password'] = $info->username;
+            $data['password'] = $info->password;
         } else {
             $data['password'] = '';
         }
@@ -199,6 +207,7 @@ class StaffController extends Controller {
             $data['position'] = [];
         }
 
+        //$data['url_upload'] = url('upload');
         $data['positions'] = $this->positionModel->getList();
 
         if (Request::old('status')) {

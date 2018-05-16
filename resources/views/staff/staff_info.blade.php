@@ -67,8 +67,42 @@
                                     {{ $info->login_at }}
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12 text-right" for="name">{{ trans('staff.text_part') }}</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @if($parts)
+                                        <ul>
+                                            @foreach($parts as $part)
+                                                <li>{{ $part }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12 text-right" for="name">{{ trans('staff.text_position') }}</label>
+                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                    @if($positions)
+                                        <ul>
+                                            @foreach($positions as $position)
+                                                <li>{{ $position }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                         <div class="col-xs-12 col-sm-5">
+                            <div class="form-group row">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12 text-right" for="avatar">{{ trans('staff.text_avatar') }}</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    @if(is_file(config('image.path') . $info->avatar))
+                                        <img src="{{ image_fit($info->avatar, 100, 100) }}" alt="" class="img-thumbnail">
+                                    @else
+                                        <img src="{{ no_image() }}" alt="" class="img-thumbnail">
+                                    @endif
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12 text-right" for="name">{{ trans('staff.text_email') }}</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
@@ -79,30 +113,6 @@
                                 <label class="control-label col-md-4 col-sm-4 col-xs-12 text-right" for="name">{{ trans('staff.text_username') }}</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
                                     {{ $info->username }}
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="control-label col-md-4 col-sm-4 col-xs-12 text-right" for="name">{{ trans('staff.text_part') }}</label>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    @if($parts)
-                                        <ul>
-                                        @foreach($parts as $part)
-                                            <li>{{ $part }}</li>
-                                        @endforeach
-                                        </ul>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="control-label col-md-4 col-sm-4 col-xs-12 text-right" for="name">{{ trans('staff.text_position') }}</label>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    @if($positions)
-                                        <ul>
-                                            @foreach($positions as $position)
-                                                <li>{{ $position }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
                                 </div>
                             </div>
                             <div class="form-group row">

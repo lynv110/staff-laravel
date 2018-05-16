@@ -11,3 +11,15 @@ if (!function_exists('mail_send')){
         return app('EmailHandle')->send($info);
     }
 }
+
+if (!function_exists('image_fit')){
+    function image_fit($image, $width, $height){
+        return app('ImageHandle')->fit($image, $width, $height);
+    }
+}
+
+if (!function_exists('no_image')){
+    function no_image(){
+        return app('ImageHandle')->fit('no-image.jpg', '100', '100');
+    }
+}

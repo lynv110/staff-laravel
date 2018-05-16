@@ -30,8 +30,14 @@ return [
     'text_confirm_delete' => 'Bạn có chắc chắn muốn xóa?',
     'text_reset_pass' => 'Reset password',
     'text_success_form' => 'Cập nhật thành công',
+    'text_select_image' => 'Chọn ảnh',
+    'text_delete_image' => 'Xóa ảnh',
+    'text_uploaded' => 'Upload thành công',
 
     'error_form' => 'Hãy kiểm tra lại các trường và nhập đủ thông tin cần thiết',
     'error_error' => 'Có lỗi xảy ra trong quá trình xử lý',
     'error_delete' => 'Bạn chưa chọn bản ghi cần xóa',
+
+    'error_filename' => 'Tên file phải từ 3 đến 255 ký tự',
+    'error_filetype' => 'Loại file không hợp lệ',
 ];
