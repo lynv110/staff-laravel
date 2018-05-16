@@ -12,7 +12,7 @@ class StaffModel {
     protected $tableStaffPart = 'staff_part';
     protected $tableStaffPosition = 'staff_position';
 
-    public function add($data, $token = null) {
+    public function add($data) {
         $id =  DB::table($this->tableStaff)->insertGetId([
             'name' => $data['name'],
             'telephone' => $data['telephone'],
@@ -48,14 +48,10 @@ class StaffModel {
             }
         }
 
-        if (!is_null($token)){
-            DB::table($this->tableStaff)->where('id', $id)->update(['token' => $token]);
-        }
-
         return $id;
     }
 
-    public function edit($id, $data, $token = null) {
+    public function edit($id, $data) {
         DB::table($this->tableStaff)->where('id', $id)->update([
             'name' => $data['name'],
             'telephone' => $data['telephone'],
@@ -88,10 +84,6 @@ class StaffModel {
                     'position_id' => $position,
                 ]);
             }
-        }
-
-        if (!is_null($token)){
-            DB::table($this->tableStaff)->where('id', $id)->update(['token' => $token]);
         }
     }
 

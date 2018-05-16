@@ -37,6 +37,7 @@ return [
     'error_form' => 'Hãy kiểm tra lại các trường và nhập đủ thông tin cần thiết',
     'error_error' => 'Có lỗi xảy ra trong quá trình xử lý',
     'error_delete' => 'Bạn chưa chọn bản ghi cần xóa',
+    'error_delete_option' => 'Bạn chưa chọn bản ghi cần xóa hoặc lựa chọn đã được sử dụng cho nhân viên',
 
     'error_filename' => 'Tên file phải từ 3 đến 255 ký tự',
     'error_filetype' => 'Loại file không hợp lệ',

@@ -11,7 +11,7 @@ class ImageHandle
     public function fit($image, $width, $height){
 
         if (!File::isFile(config('image.path') . $image)){
-            echo 1;
+            return no_image();
         }
 
         $extension = pathinfo($image, PATHINFO_EXTENSION);

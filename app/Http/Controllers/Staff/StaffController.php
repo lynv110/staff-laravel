@@ -164,7 +164,7 @@ class StaffController extends Controller {
         if (Request::old('password')) {
             $data['password'] = Request::old('password');
         } elseif (!empty($info)) {
-            $data['password'] = $info->password;
+            $data['password'] = '';
         } else {
             $data['password'] = '';
         }
@@ -295,7 +295,7 @@ class StaffController extends Controller {
             flash_error(trans('main.error_error'));
             return redirect('staff');
         } else {
-            $validator = $this->validateForm();
+            $validator = $this->validateForm($id);
             if ($validator->fails()) {
                 flash_error(trans('main.error_form'));
                 return Redirect::back()->withErrors($validator)->withInput();
@@ -340,8 +340,11 @@ class StaffController extends Controller {
             'telephone' => 'required',
             'email' => 'required|email_exist:' . $id,
             'username' => 'required|between:5,96|username_exist:' . $id,
-            'password' => 'required|between:5,96',
         ];
+
+        if (!(int)$id){
+            $rules['password'] = 'required|between:5,96';
+        }
 
         $messages = [
             'name.required' => trans('staff.error_name'),
@@ -351,10 +354,13 @@ class StaffController extends Controller {
             'email.email_exist' => trans('staff.error_email_exist'),
             'username.required' => trans('staff.error_username'),
             'username.between' => trans('staff.error_username'),
-            'password.required' => trans('staff.error_password'),
-            'password.between' => trans('staff.error_password'),
             'username.username_exist' => trans('staff.error_username_exist'),
         ];
+
+        if (!(int)$id){
+            $messages['password.required'] = trans('staff.error_password');
+            $messages['password.between'] = trans('staff.error_password');
+        }
 
         $validator = Validator::make(Request::all(), $rules, $messages);
 
