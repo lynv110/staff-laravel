@@ -95,7 +95,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="avatar">{{ trans('staff.text_avatar') }}
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" name="avatar" id="avatar" value="">
+                                <input type="file" name="avatar" value="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -107,6 +107,24 @@
                                 @if($errors->has('username'))
                                     <div class="clearfix"></div>
                                     <p class="alert alert-danger">{{ $errors->first('username') }}</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">{{ trans('staff.text_password') }}
+                                <span class="required">*</span>
+                            </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                <div class='input-group'>
+                                    <input type="text" id="password" class="form-control col-md-7 col-xs-12 pull-left" name="password" value="{{ $password }}">
+                                    <span class="input-group-addon" style="padding: 0">
+                                       <button type="button" class="btn btn-primary btn-xs password-random">{{ trans('staff.text_random') }}</button>
+                                    </span>
+                                </div>
+                                @if($errors->has('password'))
+                                    <div class="clearfix"></div>
+                                    <p class="alert alert-danger">{{ $errors->first('password') }}</p>
                                 @endif
                             </div>
                         </div>
@@ -158,5 +176,19 @@
         $('#birthday').datetimepicker({
             format: 'YYYY-MM-DD'
         });
+
+        $('.password-random').on('click', function (e) {
+            e.preventDefault();
+            $(this).parent().parent().find('input').val(makeid(15));
+        })
+
+        function makeid(length) {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (var i = 0; i < length; i++)
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            return text;
+        }
     </script>
 @endpush

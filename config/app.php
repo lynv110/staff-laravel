@@ -184,6 +184,7 @@ return [
         App\Providers\ViewComposerServiceProvider::class,
         App\Providers\FlashHandleServiceProvider::class,
         App\Providers\HelperHandelServiceProvider::class,
+        App\Providers\EmailHandleServiceProvider::class,
 
     ],
 
@@ -235,7 +236,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Staff' => App\Facades\Staff::class,
         'FlashHandle' => App\Facades\FlashHandle::class,
-
     ],
 
 ];
