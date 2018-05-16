@@ -15,3 +15,6 @@
 select#sort_permission option.disabled{
     background: #ddd;
 }
+span.required{
+    color: red;
+}

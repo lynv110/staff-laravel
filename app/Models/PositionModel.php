@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 class PositionModel
 {
     protected $tablePosition = 'position';
+    protected $tableStaffPosition = 'staff_position';
 
     public function add($data){
         return DB::table($this->tablePosition)->insertGetId([
@@ -87,5 +88,9 @@ class PositionModel
 
     public function getSortPermissions(){
         return DB::table($this->tablePosition)->select('sort_permission')->get();
+    }
+
+    public function getPositionIdUsed(){
+        return DB::table($this->tableStaffPosition)->select('position_id')->distinct()->get();
     }
 }

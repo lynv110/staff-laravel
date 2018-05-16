@@ -148,7 +148,7 @@ class PartController extends Controller {
 
     public function delete() {
         if (!$this->validateDelete()){
-            flash_warning(trans('main.error_delete'));
+            flash_error(trans('main.error_delete_option'));
             return redirect('part');
         }
 
@@ -174,9 +174,25 @@ class PartController extends Controller {
     }
 
     protected function validateDelete() {
-        if (!Request::input('id')) {
+        $ids = Request::input('id');
+        if (!$ids) {
             return false;
         }
+
+        $idsPartUsed = $this->partModel->getPartIdUsed();
+        $partUsed = [];
+        if ($idsPartUsed) {
+            foreach ($idsPartUsed as $item) {
+                $partUsed[] = $item->part_id;
+            }
+        }
+
+        foreach ($ids as $id) {
+            if (in_array($id, $partUsed)){
+                return false;
+            }
+        }
+        
         return true;
     }
 }

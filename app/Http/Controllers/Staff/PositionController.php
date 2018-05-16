@@ -163,7 +163,7 @@ class PositionController extends Controller {
 
     public function delete() {
         if (!$this->validateDelete()){
-            flash_warning(trans('main.error_delete'));
+            flash_error(trans('main.error_delete_option'));
             return redirect('position');
         }
 
@@ -216,9 +216,25 @@ class PositionController extends Controller {
     }
 
     protected function validateDelete() {
-        if (!Request::input('id')) {
+        $ids = Request::input('id');
+        if (!$ids) {
             return false;
         }
+
+        $idsPositionUsed = $this->positionModel->getPositionIdUsed();
+        $positionUsed = [];
+        if ($idsPositionUsed) {
+            foreach ($idsPositionUsed as $item) {
+                $positionUsed[] = $item->position_id;
+            }
+        }
+
+        foreach ($ids as $id) {
+            if (in_array($id, $positionUsed)){
+                return false;
+            }
+        }
+
         return true;
     }
 }

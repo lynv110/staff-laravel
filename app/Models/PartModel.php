@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 class PartModel
 {
     protected $tablePart = 'part';
+    protected $tableStaffPart = 'staff_part';
 
     public function add($data){
         return DB::table($this->tablePart)->insertGetId([
@@ -82,5 +83,9 @@ class PartModel
 
     public function getById($id){
         return DB::table($this->tablePart)->where('id', $id)->first();
+    }
+
+    public function getPartIdUsed(){
+        return DB::table($this->tableStaffPart)->select('part_id')->distinct()->get();
     }
 }
