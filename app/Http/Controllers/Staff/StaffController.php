@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PartModel;
 use App\Models\PositionModel;
 use App\Models\StaffModel;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
@@ -152,6 +153,14 @@ class StaffController extends Controller {
             $data['username'] = '';
         }
 
+        if (Request::old('password')) {
+            $data['password'] = Request::old('password');
+        } elseif (!empty($info)) {
+            $data['password'] = $info->username;
+        } else {
+            $data['password'] = '';
+        }
+
         if (Request::old('birthday')) {
             $data['birthday'] = Request::old('birthday');
         } elseif (!empty($info)) {
@@ -242,8 +251,24 @@ class StaffController extends Controller {
             flash_error(trans('main.error_form'));
             return Redirect::back()->withErrors($validator)->withInput();
         } else {
-            $token = str_random(32);
-            $id = $this->staffModel->add(Request::all(), $token);
+            $id = $this->staffModel->add(Request::all());
+
+            $mail_init = [
+                'name_from' => 'Staff Administrator',
+                'from' => 'admin@staff.com',
+                'to' => Request::input('email'),
+                'subject' => trans('mail.welcome'),
+                'view' => 'email.created_account',
+            ];
+            $info = [
+                'name' => Request::input('name'),
+                'url_login' => url('/'),
+                'username' => Request::input('username'),
+                'password' => Request::input('password'),
+            ];
+
+            mail_init($mail_init);
+            mail_send($info);
 
             flash_success(trans('main.text_success_form'));
 
@@ -308,6 +333,7 @@ class StaffController extends Controller {
             'telephone' => 'required',
             'email' => 'required|email_exist:' . $id,
             'username' => 'required|between:5,96|username_exist:' . $id,
+            'password' => 'required|between:5,96',
         ];
 
         $messages = [
@@ -318,6 +344,8 @@ class StaffController extends Controller {
             'email.email_exist' => trans('staff.error_email_exist'),
             'username.required' => trans('staff.error_username'),
             'username.between' => trans('staff.error_username'),
+            'password.required' => trans('staff.error_password'),
+            'password.between' => trans('staff.error_password'),
             'username.username_exist' => trans('staff.error_username_exist'),
         ];
 

@@ -22,7 +22,7 @@ class StaffModel {
             'avatar' => $data['avatar'],
             'birthday' => $data['birthday'],
             'username' => $data['username'],
-            'password' => Hash::make('123456'),
+            'password' => Hash::make($data['password']),
             'status' => (int)$data['status'],
             'changed_password' => 0,
             'is_root' => 0,
@@ -30,7 +30,7 @@ class StaffModel {
             'modified_at' => date('Y-m-d H:i:s'),
         ]);
 
-        if ($data['part']) {
+        if (isset($data['part'])) {
             foreach ($data['part'] as $part) {
                 DB::table($this->tableStaffPart)->insert([
                     'staff_id' => $id,
@@ -39,7 +39,7 @@ class StaffModel {
             }
         }
 
-        if ($data['position']) {
+        if (isset($data['position'])) {
             foreach ($data['position'] as $position) {
                 DB::table($this->tableStaffPosition)->insert([
                     'staff_id' => $id,
@@ -70,7 +70,8 @@ class StaffModel {
             'modified_at' => date('Y-m-d H:i:s'),
         ]);
 
-        if ($data['part']) {
+        DB::table($this->tableStaffPart)->where('staff_id', $id)->delete();
+        if (isset($data['part'])) {
             foreach ($data['part'] as $part) {
                 DB::table($this->tableStaffPart)->insert([
                     'staff_id' => $id,
@@ -79,7 +80,8 @@ class StaffModel {
             }
         }
 
-        if ($data['position']) {
+        DB::table($this->tableStaffPosition)->where('staff_id', $id)->delete();
+        if (isset($data['position'])) {
             foreach ($data['position'] as $position) {
                 DB::table($this->tableStaffPosition)->insert([
                     'staff_id' => $id,
