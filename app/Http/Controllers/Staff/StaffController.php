@@ -23,10 +23,6 @@ class StaffController extends Controller {
     }
 
     public function index() {
-        if (!Staff::isRoot()) {
-            flash_error(trans('staff.text_permission'));
-            return redirect(route('_dashboard'));
-        }
 
         $filterName = Request::get('filter_name') ? Request::get('filter_name') : '';
         $filterTelephone = Request::get('filter_telephone') ? Request::get('filter_telephone') : '';

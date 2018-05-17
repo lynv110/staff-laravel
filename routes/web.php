@@ -44,43 +44,45 @@ Route::middleware('staff_logged')->group(function (){
         Route::post('profile/edit', 'ProfileController@edit');
     });
 
-    // Staff manager
-    Route::namespace('Staff')->group(function(){
-        // Part
-        Route::get('part', 'PartController@index');
+    Route::middleware('staff_logged_root')->group(function (){
+        // Staff manager
+        Route::namespace('Staff')->group(function(){
+            // Part
+            Route::get('part', 'PartController@index');
 
-        Route::get('part/add', 'PartController@getForm');
-        Route::post('part/add', 'PartController@add');
+            Route::get('part/add', 'PartController@getForm');
+            Route::post('part/add', 'PartController@add');
 
-        Route::get('part/edit/{id}', 'PartController@getForm');
-        Route::post('part/edit/{id}', 'PartController@edit');
+            Route::get('part/edit/{id}', 'PartController@getForm');
+            Route::post('part/edit/{id}', 'PartController@edit');
 
-        Route::any('part/delete', 'PartController@delete');
+            Route::any('part/delete', 'PartController@delete');
 
-        // Position
-        Route::get('position', 'PositionController@index');
+            // Position
+            Route::get('position', 'PositionController@index');
 
-        Route::get('position/add', 'PositionController@getForm');
-        Route::post('position/add', 'PositionController@add');
+            Route::get('position/add', 'PositionController@getForm');
+            Route::post('position/add', 'PositionController@add');
 
-        Route::get('position/edit/{id}', 'PositionController@getForm');
-        Route::post('position/edit/{id}', 'PositionController@edit');
+            Route::get('position/edit/{id}', 'PositionController@getForm');
+            Route::post('position/edit/{id}', 'PositionController@edit');
 
-        Route::any('position/delete', 'PositionController@delete');
+            Route::any('position/delete', 'PositionController@delete');
 
-        // Staff
-        Route::get('staff', 'StaffController@index');
+            // Staff
+            Route::get('staff', 'StaffController@index');
 
-        Route::get('staff/add', 'StaffController@getForm');
-        Route::post('staff/add', 'StaffController@add');
+            Route::get('staff/add', 'StaffController@getForm');
+            Route::post('staff/add', 'StaffController@add');
 
-        Route::get('staff/edit/{id}', 'StaffController@getForm');
-        Route::post('staff/edit/{id}', 'StaffController@edit');
+            Route::get('staff/edit/{id}', 'StaffController@getForm');
+            Route::post('staff/edit/{id}', 'StaffController@edit');
 
-        Route::get('staff/info/{id}', 'StaffController@info');
+            Route::get('staff/info/{id}', 'StaffController@info');
 
-        Route::any('staff/delete', 'StaffController@delete');
+            Route::any('staff/delete', 'StaffController@delete');
 
-        Route::any('staff/reset-password/{id?}', 'StaffController@resetPassword');
+            Route::any('staff/reset-password/{id?}', 'StaffController@resetPassword');
+        });
     });
 });

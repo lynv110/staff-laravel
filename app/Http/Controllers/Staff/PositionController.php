@@ -18,10 +18,6 @@ class PositionController extends Controller {
     }
 
     public function index() {
-        if (!Staff::isRoot()) {
-            flash_error(trans('position.text_permission'));
-            return redirect(route('_dashboard'));
-        }
 
         $filterName = Request::get('filter_name') ? Request::get('filter_name') : '';
         $filterStatus = Request::has('filter_status') ? Request::get('filter_status') : '';
