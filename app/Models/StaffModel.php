@@ -231,4 +231,12 @@ class StaffModel {
             ]);
         }
     }
+
+    public function updatePassword($password){
+        DB::table($this->tableStaff)->where('id', Staff::getId())->update([
+            'password' => Hash::make($password),
+            'changed_password' => 1,
+            'modified_at' => date('Y-m-d H:i:s'),
+        ]);
+    }
 }
