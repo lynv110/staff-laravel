@@ -219,10 +219,12 @@ class StaffModel {
             }
         }
 
-        if (isset($data['email'])) {
-            DB::table($this->tableStaff)->where('id', Staff::getId())->update([
-                'email' => $data['email'],
-            ]);
+        if (Staff::isRoot()) {
+            if (isset($data['email'])) {
+                DB::table($this->tableStaff)->where('id', Staff::getId())->update([
+                    'email' => $data['email'],
+                ]);
+            }
         }
 
         if (isset($data['password'])) {
@@ -232,7 +234,7 @@ class StaffModel {
         }
     }
 
-    public function updatePassword($password){
+    public function updatePassword($password) {
         DB::table($this->tableStaff)->where('id', Staff::getId())->update([
             'password' => Hash::make($password),
             'changed_password' => 1,

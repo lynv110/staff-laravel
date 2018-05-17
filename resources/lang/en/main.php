@@ -36,6 +36,7 @@ return [
     'text_select_image' => 'Chọn ảnh',
     'text_delete_image' => 'Xóa ảnh',
     'text_uploaded' => 'Upload thành công',
+    'text_login_last' => 'Đăng nhập cuối',
 
     'error_form' => 'Hãy kiểm tra lại các trường và nhập đủ thông tin cần thiết',
     'error_error' => 'Có lỗi xảy ra trong quá trình xử lý',

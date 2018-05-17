@@ -38,9 +38,13 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12 text-right" for="name">{{ trans('staff.text_gender') }}</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    @if($info->gender == '0') {{ trans('staff.text_male') }} @endif
-                                    @if($info->gender == '1') {{ trans('staff.text_female') }} @endif
-                                    @if($info->gender == '2') {{ trans('staff.text_other') }} @endif
+                                    @if($info->gender == '0')
+                                        {{ trans('staff.text_male') }}
+                                    @elseif($info->gender == '1')
+                                        {{ trans('staff.text_female') }}
+                                    @else
+                                        {{ trans('staff.text_other') }}
+                                    @endif
                                 </div>
                             </div>
                             <div class="form-group row">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Facades\Staff;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Request;
 
@@ -29,9 +30,12 @@ class StaffRequest extends FormRequest
         $rules = [
             'name' => 'required|between:2,32',
             'telephone' => 'required',
-            'email' => 'email|required|staff_email_exist:' . $id,
             'username' => 'required|between:5,96|staff_username_exist:' . $id,
         ];
+
+        if (Staff::isRoot()){
+            $rules['email'] = 'email|required|staff_email_exist:' . $id;
+        }
 
         if (!(int)$id){
             $rules['password'] = 'required|between:5,96';
@@ -61,6 +65,12 @@ class StaffRequest extends FormRequest
             'username.between' => trans('staff.error_username'),
             'username.staff_username_exist' => trans('staff.error_username_exist'),
         ];
+
+        if (Staff::isRoot()){
+            $messages['email.required'] = trans('staff.error_email');
+            $messages['email.email'] = trans('staff.error_email_not_valid');
+            $messages['email.staff_email_exist'] = trans('staff.error_email_exist');
+        }
 
         if (!(int)$id){
             $messages['password.required'] = trans('staff.error_password');
