@@ -18,6 +18,7 @@
                     <br/>
                     <form id="form" action="" class="form-horizontal form-label-left" method="post">
                         <input type="hidden" name="_redirect" value="">
+                        <input type="hidden" name="id" value="{{ $id }}">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">{{ trans('position.text_name') }}

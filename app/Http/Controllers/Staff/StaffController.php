@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Facades\Staff;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StaffRequest;
 use App\Models\PartModel;
 use App\Models\PositionModel;
 use App\Models\StaffModel;
@@ -91,6 +92,9 @@ class StaffController extends Controller {
         } else {
             $data['action'] = url('staff/add');
         }
+
+        $data['id'] = $id;
+
         $data['reset_pass'] = 0;
         if (!empty($info)){
             $data['reset_pass'] = $id;
@@ -253,64 +257,52 @@ class StaffController extends Controller {
         return view('staff.staff_info', $data);
     }
 
-    public function add() {
-        $validator = $this->validateForm();
-        if ($validator->fails()) {
-            flash_error(trans('main.error_form'));
-            return Redirect::back()->withErrors($validator)->withInput();
+    public function add(StaffRequest $request) {
+        $id = $this->staffModel->add(Request::all());
+
+        $mail_init = [
+            'name_from' => 'Staff Administrator',
+            'name_to' =>  Request::input('name'),
+            'from' => 'admin@staff.com',
+            'to' => html_entity_decode(Request::input('email'), ENT_QUOTES, 'UTF-8'),
+            'subject' => trans('mail.welcome'),
+        ];
+        $info = [
+            'name' => Request::input('name'),
+            'url_login' => url('/'),
+            'username' => Request::input('username'),
+            'password' => Request::input('password'),
+        ];
+
+        //mail_send($mail_init, $info, 'email.created_account');
+
+        flash_success(trans('main.text_success_form'));
+
+        switch (Request::input('_redirect')) {
+            case 'add':
+                return redirect('staff/add');
+            case 'edit':
+                return redirect('staff/edit/' . $id);
+            default:
+                return redirect('staff');
+        }
+    }
+
+    public function edit($id, StaffRequest $request) {
+        if (!(int)$id) {
+            flash_error(trans('main.error_error'));
+            return redirect('staff');
         } else {
-            $id = $this->staffModel->add(Request::all());
-
-            $mail_init = [
-                'name_from' => 'Staff Administrator',
-                'name_to' =>  Request::input('name'),
-                'from' => 'admin@staff.com',
-                'to' => html_entity_decode(Request::input('email'), ENT_QUOTES, 'UTF-8'),
-                'subject' => trans('mail.welcome'),
-            ];
-            $info = [
-                'name' => Request::input('name'),
-                'url_login' => url('/'),
-                'username' => Request::input('username'),
-                'password' => Request::input('password'),
-            ];
-
-            mail_send($mail_init, $info, 'email.created_account');
-
+            $this->staffModel->edit((int)$id, Request::all());
             flash_success(trans('main.text_success_form'));
 
             switch (Request::input('_redirect')) {
                 case 'add':
                     return redirect('staff/add');
                 case 'edit':
-                    return redirect('staff/edit/' . $id);
+                    return redirect('staff/edit/' . (int)$id);
                 default:
                     return redirect('staff');
-            }
-        }
-    }
-
-    public function edit($id) {
-        if (!(int)$id) {
-            flash_error(trans('main.error_error'));
-            return redirect('staff');
-        } else {
-            $validator = $this->validateForm($id);
-            if ($validator->fails()) {
-                flash_error(trans('main.error_form'));
-                return Redirect::back()->withErrors($validator)->withInput();
-            } else {
-                $this->staffModel->edit((int)$id, Request::all());
-                flash_success(trans('main.text_success_form'));
-
-                switch (Request::input('_redirect')) {
-                    case 'add':
-                        return redirect('staff/add');
-                    case 'edit':
-                        return redirect('staff/edit/' . (int)$id);
-                    default:
-                        return redirect('staff');
-                }
             }
         }
     }
@@ -332,65 +324,6 @@ class StaffController extends Controller {
     public function resetPassword($id) {
 
         return redirect('staff');
-    }
-
-    protected function validateForm($id = null) {
-        $rules = [
-            'name' => 'required|between:2,32',
-            'telephone' => 'required',
-            'email' => 'required|email_exist:' . $id,
-            'username' => 'required|between:5,96|username_exist:' . $id,
-        ];
-
-        if (!(int)$id){
-            $rules['password'] = 'required|between:5,96';
-        }
-
-        $messages = [
-            'name.required' => trans('staff.error_name'),
-            'name.between' => trans('staff.error_name'),
-            'telephone.required' => trans('staff.error_telephone'),
-            'email.required' => trans('staff.error_email'),
-            'email.email_exist' => trans('staff.error_email_exist'),
-            'username.required' => trans('staff.error_username'),
-            'username.between' => trans('staff.error_username'),
-            'username.username_exist' => trans('staff.error_username_exist'),
-        ];
-
-        if (!(int)$id){
-            $messages['password.required'] = trans('staff.error_password');
-            $messages['password.between'] = trans('staff.error_password');
-        }
-
-        $validator = Validator::make(Request::all(), $rules, $messages);
-
-        $validator->addExtension('email_exist', function ($attribute, $value, $parameters, $validator) {
-            if ($staff = $this->staffModel->checkEmailExist($value)) {
-                if (!is_null($parameters[0]) && $parameters[0]){
-                    if ($parameters[0] != $staff->id){
-                        return false;
-                    }
-                }else{
-                    return false;
-                }
-            }
-            return true;
-        });
-
-        $validator->addExtension('username_exist', function ($attribute, $value, $parameters, $validator) {
-            if ($staff = $this->staffModel->checkUsernameExist($value)) {
-                if (!is_null($parameters[0]) && $parameters[0]){
-                    if ($parameters[0] != $staff->id){
-                        return false;
-                    }
-                }else{
-                    return false;
-                }
-            }
-            return true;
-        });
-
-        return $validator;
     }
 
     protected function validateDelete() {
