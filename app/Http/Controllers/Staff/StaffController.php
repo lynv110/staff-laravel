@@ -8,10 +8,7 @@ use App\Http\Requests\StaffRequest;
 use App\Models\PartModel;
 use App\Models\PositionModel;
 use App\Models\StaffModel;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Validator;
 
 class StaffController extends Controller {
 
@@ -50,23 +47,23 @@ class StaffController extends Controller {
 
         $url = url('staff');
 
-        if ($filterName || (isset($filterStatus) && $filterStatus != '' || $filterTelephone || $filterEmail) ) {
+        if ($filterName || (isset($filterStatus) && $filterStatus != '' || $filterTelephone || $filterEmail)) {
 
             $url .= '?filter';
 
-            if ($filterName){
+            if ($filterName) {
                 $url .= '&filter_name=' . $filterName;
             }
 
-            if ($filterTelephone){
+            if ($filterTelephone) {
                 $url .= '&filter_telephone=' . $filterTelephone;
             }
 
-            if ($filterEmail){
+            if ($filterEmail) {
                 $url .= '&filter_email=' . $filterEmail;
             }
 
-            if ($filterStatus){
+            if ($filterStatus) {
                 $url .= '&filter_status=' . $filterStatus;
             }
         }
@@ -96,7 +93,7 @@ class StaffController extends Controller {
         $data['id'] = $id;
 
         $data['reset_pass'] = 0;
-        if (!empty($info)){
+        if (!empty($info)) {
             $data['reset_pass'] = $id;
         }
         $data['cancel'] = url('staff');
@@ -262,7 +259,7 @@ class StaffController extends Controller {
 
         $mail_init = [
             'name_from' => 'Staff Administrator',
-            'name_to' =>  Request::input('name'),
+            'name_to' => Request::input('name'),
             'from' => 'admin@staff.com',
             'to' => html_entity_decode(Request::input('email'), ENT_QUOTES, 'UTF-8'),
             'subject' => trans('mail.welcome'),
@@ -272,9 +269,10 @@ class StaffController extends Controller {
             'url_login' => url('/'),
             'username' => Request::input('username'),
             'password' => Request::input('password'),
+            'welcome' => trans('mail.welcome'),
         ];
 
-        //mail_send($mail_init, $info, 'email.created_account');
+        mail_send($mail_init, $info, 'email.mail');
 
         flash_success(trans('main.text_success_form'));
 
@@ -308,7 +306,7 @@ class StaffController extends Controller {
     }
 
     public function delete() {
-        if (!$this->validateDelete()){
+        if (!$this->validateExistId()) {
             flash_warning(trans('main.error_delete'));
             return redirect('staff');
         }
@@ -321,15 +319,79 @@ class StaffController extends Controller {
         return redirect('staff');
     }
 
-    public function resetPassword($id) {
-
-        return redirect('staff');
-    }
-
-    protected function validateDelete() {
+    protected function validateExistId() {
         if (!Request::input('id')) {
             return false;
         }
         return true;
+    }
+
+    public function resetPassword($id = null) {
+
+        if (!is_null($id) && $id) {
+            $staff = $this->staffModel->getById((int)$id);
+            if ($staff) {
+
+                $password = str_random(mt_rand(6, 10));
+
+                $this->staffModel->resetPasswords($id, $password);
+
+                $mail_init = [
+                    'name_from' => 'Staff Administrator',
+                    'name_to' => $staff->name,
+                    'from' => 'admin@staff.com',
+                    'to' => $staff->email,
+                    'subject' => trans('mail.reset_welcome'),
+                ];
+                $info = [
+                    'name' => $staff->name,
+                    'url_login' => url('/'),
+                    'username' => $staff->username,
+                    'password' => $password,
+                    'welcome' => trans('mail.reset_welcome'),
+                ];
+
+                mail_send($mail_init, $info, 'email.mail');
+
+                flash_success(trans('staff.text_success_reset'));
+            } else {
+                flash_error(trans('staff.error_not_exist'));
+            }
+        } else {
+            if (!$this->validateExistId()) {
+                flash_error(trans('staff.error_not_select'));
+                return redirect('staff');
+            }
+
+            foreach (Request::input('id') as $id) {
+                $staff = $this->staffModel->getById((int)$id);
+                if ($staff) {
+
+                    $password = str_random(mt_rand(6, 10));
+
+                    $this->staffModel->resetPasswords($id, $password);
+
+                    $mail_init = [
+                        'name_from' => 'Staff Administrator',
+                        'name_to' => $staff->name,
+                        'from' => 'admin@staff.com',
+                        'to' => $staff->email,
+                        'subject' => trans('mail.reset_welcome'),
+                    ];
+                    $info = [
+                        'name' => $staff->name,
+                        'url_login' => url('/'),
+                        'username' => $staff->username,
+                        'password' => $password,
+                        'welcome' => trans('mail.reset_welcome'),
+                    ];
+
+                    mail_send($mail_init, $info, 'email.mail');
+                }
+            }
+
+            flash_success(trans('staff.text_success_reset'));
+        }
+        return redirect('staff');
     }
 }

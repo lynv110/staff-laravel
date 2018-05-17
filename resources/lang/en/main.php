@@ -28,6 +28,7 @@ return [
     'text_option' => 'Lựa chọn',
     'text_sort_permission' => 'Thứ tự quyền chức vụ',
     'text_confirm_delete' => 'Bạn có chắc chắn muốn xóa?',
+    'text_confirm_reset' => 'Bạn có chắc chắn muốn reset các tài khoản nhân viên?',
     'text_reset_pass' => 'Reset password',
     'text_success_form' => 'Cập nhật thành công',
     'text_select_image' => 'Chọn ảnh',

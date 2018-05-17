@@ -7,6 +7,8 @@
                 <div class="x_title">
                     <h2>{{ trans('main.text_list') }}</h2>
                     <div class="pull-right">
+                        <a class="btn btn-danger btn-sm" onclick="return confirm('{{ trans('main.text_confirm_reset') }}') ? $('#form').attr('action', '{{ url('staff/reset-password') }}').submit() : false;"><i class="fa fa-refresh"></i> {{ trans('main.text_reset_pass') }}
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-primary btn-sm" href="{{ url('staff/add') }}"><i class="fa fa-plus"></i> {{ trans('main.text_add') }}
                         </a>
                         <a class="btn btn-warning btn-sm" onclick="return confirm('{{ trans('main.text_confirm_delete') }}') ? $('#form').submit() : false;"><i class="fa fa-times"></i> {{ trans('main.text_delete') }}
@@ -26,7 +28,7 @@
                                 <th>{{ trans('staff.text_address') }}</th>
                                 <th>{{ trans('staff.text_email') }}</th>
                                 <th class="text-center">{{ trans('main.text_status') }}</th>
-                                <th class="text-right">{{ trans('main.text_action') }}</th>
+                                <th style="width: 110px;" class="text-right">{{ trans('main.text_action') }}</th>
                             </tr>
                             </thead>
                             <tbody>
