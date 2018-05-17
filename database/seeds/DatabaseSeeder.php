@@ -11,6 +11,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // Default root account
+        DB::table('staff')->insert([
+            'name' => 'Staff Admin',
+            'telephone' => '0986087298',
+            'gender' => '0',
+            'email' => 'admin@admin.admin',
+            'username' => 'admin',
+            'password' => \Illuminate\Support\Facades\Hash::make('123456'),
+            'status' => 1,
+            'changed_password' => 0,
+            'is_root' => 1,
+        ]);
     }
 }
