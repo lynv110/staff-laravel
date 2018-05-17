@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Facades\Staff;
 use Closure;
 
 class StaffLoggedRoot
@@ -15,6 +16,10 @@ class StaffLoggedRoot
      */
     public function handle($request, Closure $next)
     {
+        if (!Staff::isRoot()) {
+            flash_error(trans('part.text_permission'));
+            return redirect(route('_dashboard'));
+        }
         return $next($request);
     }
 }
