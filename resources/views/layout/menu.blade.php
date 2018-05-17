@@ -7,7 +7,7 @@
         <!-- menu profile quick info -->
         <div class="profile clearfix">
             <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="{{ image_fit(Staff::getAvatar(), 70, 70) }}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
                 <span>Welcome,</span>
@@ -23,7 +23,11 @@
                 @if($menus)
                 <ul class="nav side-menu">
                     @foreach($menus as $menu)
-                    <li><a href="{{ $menu['href'] }}"><i class="{{ $menu['icon'] }}"></i> {{ $menu['name'] }} {{--<span class="fa fa-chevron-down"></span>--}}</a>
+                    <li><a href="{{ $menu['href'] }}"><i class="{{ $menu['icon'] }}"></i> {{ $menu['name'] }} {{--<span class="fa fa-chevron-down"></span>--}}
+                            @if(isset($menu['total']))
+                            <span class="label label-success pull-right">{{ $menu['total'] }}</span>
+                            @endif
+                        </a>
                         {{--<ul class="nav child_menu">
                             <li><a href="index.html">Dashboard</a></li>
                             <li><a href="index2.html">Dashboard2</a></li>

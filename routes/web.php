@@ -34,6 +34,11 @@ Route::middleware('staff_logged')->group(function (){
     Route::namespace('Common')->group(function () {
         Route::get('dashboard', 'DashboardController@index')->name('_dashboard');
         Route::post('upload-file', 'UploadController@upload');
+
+        // Profile
+        Route::get('profile', 'ProfileController@info');
+        Route::get('profile/edit', 'ProfileController@getForm');
+        Route::post('profile/edit', 'ProfileController@edit');
     });
 
     // Staff manager

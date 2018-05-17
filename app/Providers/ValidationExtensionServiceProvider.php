@@ -83,5 +83,12 @@ class ValidationExtensionServiceProvider extends ServiceProvider
             return true;
         });
 
+        Validator::extend('staff_password', function ($attribute, $value, $parameters, $validator) use ($staffModel){
+            if ($value && (strlen($value) < 5 || strlen($value) > 96)) {
+                return false;
+            }
+            return true;
+        });
+
     }
 }
