@@ -8,17 +8,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="images/img.jpg" alt=""><?php echo Staff::getName(); ?>
+                        <img src="{{ image_fit(Staff::getAvatar(), 50, 50) }}" alt=""><?php echo Staff::getName(); ?>
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="javascript:;"> {{ trans('common/common.text_profile') }}</a></li>
-                        <li>
-                            <a href="javascript:;">
-                                <span class="badge bg-red pull-right">50%</span>
-                                <span>Settings</span>
-                            </a>
-                        </li>
+                        <li><a href="{{ url('profile') }}"> {{ trans('common/common.text_profile') }}</a></li>
                         <li><a href="{{ url('logout') }}"><i class="fa fa-sign-out pull-right"></i> {{ trans('common/common.text_logout') }}</a></li>
                     </ul>
                 </li>

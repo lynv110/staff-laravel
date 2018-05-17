@@ -23,6 +23,7 @@ return [
     'text_created_at' => 'Ngày tạo',
     'text_modified_at' => 'Ngày sửa',
     'text_login_at' => 'Đăng nhập gần đây',
+    'text_re_password' => 'Nhập lại mật khẩu',
 
     'text_success_reset' => 'Reset mật khẩu thành công. Thông tin đăng nhập đã được gửi về email nhân viên',
 
@@ -31,7 +32,10 @@ return [
     'error_email' => 'Email chưa được khai báo',
     'error_username' => 'Tên đăng nhập phải từ 5 đến 96 ký tự',
     'error_email_exist' => 'Email này đã tồn tại trên hệ thống',
+    'error_email_not_valid' => 'Email không đúng định dạng',
     'error_username_exist' => 'Tên đăng nhập này đã tồn tại trên hệ thống',
+    'error_password_not_match' => 'Mật khẩu không khớp',
+    'error_password' => 'Mật khẩu từ 5 đến 96 ký tự',
 
     'error_not_exist' => 'Không tồn tại thông tin nhân viên trên hệ thống',
     'error_not_select' => 'Bạn cần chọn nhân viên để reset pass',

@@ -15,7 +15,8 @@ class Staff
     protected $changedPassword;
     protected $isRoot;
     protected $username;
-    protected $attributes = ['id', 'name', 'telephone', 'email', 'changed_password', 'is_root', 'username'];
+    protected $avatar;
+    protected $attributes = ['id', 'name', 'telephone', 'email', 'changed_password', 'is_root', 'username', 'avatar'];
 
     private $loginModel;
 
@@ -78,6 +79,10 @@ class Staff
 
     public function getEmail(){
         return $this->email;
+    }
+
+    public function getAvatar(){
+        return $this->avatar;
     }
 
     public function getChangedPassword(){

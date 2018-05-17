@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Facades\Staff;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -184,5 +185,50 @@ class StaffModel {
             'changed_password' => 0,
             'modified_at' => date('Y-m-d H:i:s'),
         ]);
+    }
+
+    public function updateProfile($data) {
+        DB::table($this->tableStaff)->where('id', Staff::getId())->update([
+            'name' => $data['name'],
+            'telephone' => $data['telephone'],
+            'address' => $data['address'],
+            'gender' => (int)$data['gender'],
+            'avatar' => $data['avatar'],
+            'birthday' => $data['birthday'],
+            'username' => $data['username'],
+            'modified_at' => date('Y-m-d H:i:s'),
+        ]);
+
+        DB::table($this->tableStaffPart)->where('staff_id', Staff::getId())->delete();
+        if (isset($data['part'])) {
+            foreach ($data['part'] as $part) {
+                DB::table($this->tableStaffPart)->insert([
+                    'staff_id' => Staff::getId(),
+                    'part_id' => $part,
+                ]);
+            }
+        }
+
+        DB::table($this->tableStaffPosition)->where('staff_id', Staff::getId())->delete();
+        if (isset($data['position'])) {
+            foreach ($data['position'] as $position) {
+                DB::table($this->tableStaffPosition)->insert([
+                    'staff_id' => Staff::getId(),
+                    'position_id' => $position,
+                ]);
+            }
+        }
+
+        if (isset($data['email'])) {
+            DB::table($this->tableStaff)->where('id', Staff::getId())->update([
+                'email' => $data['email'],
+            ]);
+        }
+
+        if (isset($data['password'])) {
+            DB::table($this->tableStaff)->where('id', Staff::getId())->update([
+                'password' => Hash::make($data['password']),
+            ]);
+        }
     }
 }

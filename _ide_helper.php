@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.5.40 on 2018-05-16 07:31:02.
+ * Generated for Laravel 5.5.40 on 2018-05-17 07:41:30.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -12350,6 +12350,16 @@ namespace App\Facades {
         public static function getEmail()
         {
             return \App\Libraries\Staff::getEmail();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAvatar()
+        {
+            return \App\Libraries\Staff::getAvatar();
         }
         
         /**
