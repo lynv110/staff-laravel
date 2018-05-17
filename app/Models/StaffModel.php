@@ -13,7 +13,7 @@ class StaffModel {
     protected $tableStaffPosition = 'staff_position';
 
     public function add($data) {
-        $id =  DB::table($this->tableStaff)->insertGetId([
+        $id = DB::table($this->tableStaff)->insertGetId([
             'name' => $data['name'],
             'telephone' => $data['telephone'],
             'address' => $data['address'],
@@ -143,7 +143,7 @@ class StaffModel {
             $order .= " ASC";
         }
 
-        if (isset($data['paginate']) && $data['paginate']){
+        if (isset($data['paginate']) && $data['paginate']) {
             return DB::table($this->tableStaff)->whereRaw($where)->orderByRaw($order)->paginate(config('main.limit'));
         }
 
@@ -176,5 +176,13 @@ class StaffModel {
 
     public function getPositionByStaff($id) {
         return DB::table($this->tableStaffPosition)->select($this->tablePosition . '.name')->leftJoin($this->tablePosition, $this->tableStaffPosition . '.position_id', '=', $this->tablePosition . '.id')->where($this->tableStaffPosition . '.staff_id', $id)->get();
+    }
+
+    public function resetPasswords($id, $password) {
+        DB::table($this->tableStaff)->where('id', $id)->update([
+            'password' => Hash::make($password),
+            'changed_password' => 0,
+            'modified_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 }

@@ -24,10 +24,15 @@ return [
     'text_modified_at' => 'Ngày sửa',
     'text_login_at' => 'Đăng nhập gần đây',
 
+    'text_success_reset' => 'Reset mật khẩu thành công. Thông tin đăng nhập đã được gửi về email nhân viên',
+
     'error_name' => 'Tên nhân viên từ 2 đến 32 ký tự',
     'error_telephone' => 'Số điện thoại chưa được khai báo',
     'error_email' => 'Email chưa được khai báo',
     'error_username' => 'Tên đăng nhập phải từ 5 đến 96 ký tự',
     'error_email_exist' => 'Email này đã tồn tại trên hệ thống',
     'error_username_exist' => 'Tên đăng nhập này đã tồn tại trên hệ thống',
+
+    'error_not_exist' => 'Không tồn tại thông tin nhân viên trên hệ thống',
+    'error_not_select' => 'Bạn cần chọn nhân viên để reset pass',
 ];
