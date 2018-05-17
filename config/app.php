@@ -186,6 +186,7 @@ return [
         App\Providers\HelperHandelServiceProvider::class,
         App\Providers\EmailHandleServiceProvider::class,
         App\Providers\ImageHandleServiceProvider::class,
+        App\Providers\ValidationExtensionServiceProvider::class,
 
     ],
 

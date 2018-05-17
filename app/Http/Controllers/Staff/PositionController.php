@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Facades\Staff;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PositionRequest;
 use App\Models\PositionModel;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -64,6 +65,8 @@ class PositionController extends Controller {
             $info = $this->positionModel->getById((int)$id);
         }
 
+        $data['id'] = $id;
+
         if (isset($id)) {
             $data['action'] = url('position/edit/' . (int)$id);
         } else {
@@ -116,47 +119,35 @@ class PositionController extends Controller {
         return view('staff.position_form', $data);
     }
 
-    public function add() {
-        $validator = $this->validateForm();
-        if ($validator->fails()) {
-            flash_error(trans('main.error_form'));
-            return Redirect::back()->withErrors($validator)->withInput();
+    public function add(PositionRequest $request) {
+        $id = $this->positionModel->add(Request::all());
+        flash_success(trans('main.text_success_form'));
+
+        switch (Request::input('_redirect')) {
+            case 'add':
+                return redirect('position/add');
+            case 'edit':
+                return redirect('position/edit/' . $id);
+            default:
+                return redirect('position');
+        }
+    }
+
+    public function edit($id, PositionRequest $request) {
+        if (!(int)$id) {
+            flash_error(trans('main.error_error'));
+            return redirect('position');
         } else {
-            $id = $this->positionModel->add(Request::all());
+            $this->positionModel->edit((int)$id, Request::all());
             flash_success(trans('main.text_success_form'));
 
             switch (Request::input('_redirect')) {
                 case 'add':
                     return redirect('position/add');
                 case 'edit':
-                    return redirect('position/edit/' . $id);
+                    return redirect('position/edit/' . (int)$id);
                 default:
                     return redirect('position');
-            }
-        }
-    }
-
-    public function edit($id) {
-        if (!(int)$id) {
-            flash_error(trans('main.error_error'));
-            return redirect('position');
-        } else {
-            $validator = $this->validateForm($id);
-            if ($validator->fails()) {
-                flash_error(trans('main.error_form'));
-                return Redirect::back()->withErrors($validator)->withInput();
-            } else {
-                $this->positionModel->edit((int)$id, Request::all());
-                flash_success(trans('main.text_success_form'));
-
-                switch (Request::input('_redirect')) {
-                    case 'add':
-                        return redirect('position/add');
-                    case 'edit':
-                        return redirect('position/edit/' . (int)$id);
-                    default:
-                        return redirect('position');
-                }
             }
         }
     }
@@ -173,46 +164,6 @@ class PositionController extends Controller {
 
         flash_success(trans('main.text_success_form'));
         return redirect('position');
-    }
-
-    protected function validateForm($id = null) {
-        $rules = [
-            'name' => 'required|between:5,95',
-            'sort_permission' => 'required|min:1|max:120|exist:' . $id,
-        ];
-
-        $messages = [
-            'name.required' => trans('position.error_name'),
-            'name.between' => trans('position.error_name'),
-            'sort_permission.required' => trans('position.error_sort_permission'),
-            'sort_permission.max' => trans('position.error_sort_permission'),
-            'sort_permission.min' => trans('position.error_sort_permission'),
-            'sort_permission.exist' => trans('position.error_sort_permission_exit'),
-        ];
-
-        $validator = Validator::make(Request::all(), $rules, $messages);
-
-        $validator->addExtension('exist', function ($attribute, $value, $parameters, $validator) {
-            if ($sortPermissions = $this->positionModel->getSortPermissions()) {
-                $position = $parameters[0] ? $this->positionModel->getById($parameters[0]) : [];
-                foreach ($sortPermissions as $sortPermission) {
-                    if ($position) {
-                        if (($value == $sortPermission->sort_permission) && ($value != $position->sort_permission)) {
-                            return false;
-                            break;
-                        }
-                    }else{
-                        if ($value == $sortPermission->sort_permission) {
-                            return false;
-                            break;
-                        }
-                    }
-                }
-            }
-            return true;
-        });
-
-        return $validator;
     }
 
     protected function validateDelete() {

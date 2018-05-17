@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Facades\Staff;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PartRequest;
 use App\Models\PartModel;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
@@ -64,6 +65,8 @@ class PartController extends Controller {
             $info = $this->partModel->getById((int)$id);
         }
 
+        $data['id'] = $id;
+
         if (isset($id)) {
             $data['action'] = url('part/edit/' . (int)$id);
         } else {
@@ -101,47 +104,35 @@ class PartController extends Controller {
         return view('staff.part_form', $data);
     }
 
-    public function add() {
-        $validator = $this->validateForm();
-        if ($validator->fails()) {
-            flash_error(trans('main.error_form'));
-            return Redirect::back()->withErrors($validator)->withInput();
+    public function add(PartRequest $request) {
+        $id = $this->partModel->add(Request::all());
+        flash_success(trans('main.text_success_form'));
+
+        switch (Request::input('_redirect')) {
+            case 'add':
+                return redirect('part/add');
+            case 'edit':
+                return redirect('part/edit/' . $id);
+            default:
+                return redirect('part');
+        }
+    }
+
+    public function edit($id, PartRequest $request) {
+        if (!(int)$id) {
+            flash_error(trans('main.error_error'));
+            return redirect('part');
         } else {
-            $id = $this->partModel->add(Request::all());
+            $this->partModel->edit((int)$id, Request::all());
             flash_success(trans('main.text_success_form'));
 
             switch (Request::input('_redirect')) {
                 case 'add':
                     return redirect('part/add');
                 case 'edit':
-                    return redirect('part/edit/' . $id);
+                    return redirect('part/edit/' . (int)$id);
                 default:
                     return redirect('part');
-            }
-        }
-    }
-
-    public function edit($id) {
-        if (!(int)$id) {
-            flash_error(trans('main.error_error'));
-            return redirect('part');
-        } else {
-            $validator = $this->validateForm();
-            if ($validator->fails()) {
-                flash_error(trans('main.error_form'));
-                return Redirect::back()->withErrors($validator)->withInput();
-            } else {
-                $this->partModel->edit((int)$id, Request::all());
-                flash_success(trans('main.text_success_form'));
-
-                switch (Request::input('_redirect')) {
-                    case 'add':
-                        return redirect('part/add');
-                    case 'edit':
-                        return redirect('part/edit/' . (int)$id);
-                    default:
-                        return redirect('part');
-                }
             }
         }
     }
@@ -158,19 +149,6 @@ class PartController extends Controller {
 
         flash_success(trans('main.text_success_form'));
         return redirect('part');
-    }
-
-    protected function validateForm() {
-        $rules = [
-            'name' => 'required|between:5,95'
-        ];
-
-        $messages = [
-            'name.required' => trans('part.error_name'),
-            'name.between' => trans('part.error_name'),
-        ];
-
-        return Validator::make(Request::all(), $rules, $messages);
     }
 
     protected function validateDelete() {
