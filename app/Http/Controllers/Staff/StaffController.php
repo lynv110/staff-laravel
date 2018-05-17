@@ -257,22 +257,19 @@ class StaffController extends Controller {
     public function add(StaffRequest $request) {
         $id = $this->staffModel->add(Request::all());
 
-        $mail_init = [
-            'name_from' => 'Staff Administrator',
-            'name_to' => Request::input('name'),
-            'from' => 'admin@staff.com',
-            'to' => html_entity_decode(Request::input('email'), ENT_QUOTES, 'UTF-8'),
-            'subject' => trans('mail.welcome'),
-        ];
         $info = [
-            'name' => Request::input('name'),
-            'url_login' => url('/'),
-            'username' => Request::input('username'),
-            'password' => Request::input('password'),
-            'welcome' => trans('mail.welcome'),
+            'name_to' => Request::input('name'),
+            'email_to' => html_entity_decode(Request::input('email'), ENT_QUOTES, 'UTF-8'),
+            'subject' => trans('mail.welcome'),
+            'data' => [
+                'name' => Request::input('name'),
+                'username' => Request::input('username'),
+                'password' => Request::input('password'),
+                'welcome' => trans('mail.welcome')
+            ],
         ];
 
-        mail_send($mail_init, $info, 'email.mail');
+        $this->sendMail($info);
 
         flash_success(trans('main.text_success_form'));
 
@@ -334,24 +331,21 @@ class StaffController extends Controller {
 
                 $password = str_random(mt_rand(6, 10));
 
-                $this->staffModel->resetPasswords($id, $password);
+                $this->staffModel->resetPassword($id, $password);
 
-                $mail_init = [
-                    'name_from' => 'Staff Administrator',
-                    'name_to' => $staff->name,
-                    'from' => 'admin@staff.com',
-                    'to' => $staff->email,
-                    'subject' => trans('mail.reset_welcome'),
-                ];
                 $info = [
-                    'name' => $staff->name,
-                    'url_login' => url('/'),
-                    'username' => $staff->username,
-                    'password' => $password,
-                    'welcome' => trans('mail.reset_welcome'),
+                    'name_to' => $staff->name,
+                    'email_to' => $staff->email,
+                    'subject' => trans('mail.reset_welcome'),
+                    'data' => [
+                        'name' => $staff->name,
+                        'username' => $staff->username,
+                        'password' => $password,
+                        'welcome' => trans('mail.reset_welcome')
+                    ],
                 ];
 
-                mail_send($mail_init, $info, 'email.mail');
+                $this->sendMail($info);
 
                 flash_success(trans('staff.text_success_reset'));
             } else {
@@ -369,29 +363,45 @@ class StaffController extends Controller {
 
                     $password = str_random(mt_rand(6, 10));
 
-                    $this->staffModel->resetPasswords($id, $password);
-
-                    $mail_init = [
-                        'name_from' => 'Staff Administrator',
-                        'name_to' => $staff->name,
-                        'from' => 'admin@staff.com',
-                        'to' => $staff->email,
-                        'subject' => trans('mail.reset_welcome'),
-                    ];
+                    $this->staffModel->resetPassword($id, $password);
                     $info = [
-                        'name' => $staff->name,
-                        'url_login' => url('/'),
-                        'username' => $staff->username,
-                        'password' => $password,
-                        'welcome' => trans('mail.reset_welcome'),
+                        'name_to' => $staff->name,
+                        'email_to' => $staff->email,
+                        'subject' => trans('mail.reset_welcome'),
+                        'data' => [
+                            'name' => $staff->name,
+                            'username' => $staff->username,
+                            'password' => $password,
+                            'welcome' => trans('mail.reset_welcome')
+                        ],
                     ];
 
-                    mail_send($mail_init, $info, 'email.mail');
+                    $this->sendMail($info);
                 }
             }
 
             flash_success(trans('staff.text_success_reset'));
         }
         return redirect('staff');
+    }
+
+    protected function sendMail($info){
+
+        $mail_init = [
+            'name_from' => 'Staff Administrator',
+            'name_to' => isset($info['name_to']) ? $info['name_to'] : '',
+            'from' => 'admin@staff.com',
+            'to' => isset($info['email_to']) ? $info['email_to'] : '',
+            'subject' => isset($info['subject']) ? $info['subject'] : trans('email.hello'),
+        ];
+        $info = [
+            'name' => isset($info['data']['name']) ? $info['data']['name'] : '',
+            'url_login' => url('/'),
+            'username' => isset($info['data']['username']) ? $info['data']['username'] : '',
+            'password' => isset($info['data']['password']) ? $info['data']['password'] : '',
+            'welcome' => isset($info['data']['welcome']) ? $info['data']['welcome'] : trans('email.hello'),
+        ];
+
+        mail_send($mail_init, $info, 'email.mail');
     }
 }

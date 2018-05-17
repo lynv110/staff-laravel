@@ -178,7 +178,7 @@ class StaffModel {
         return DB::table($this->tableStaffPosition)->select($this->tablePosition . '.name')->leftJoin($this->tablePosition, $this->tableStaffPosition . '.position_id', '=', $this->tablePosition . '.id')->where($this->tableStaffPosition . '.staff_id', $id)->get();
     }
 
-    public function resetPasswords($id, $password) {
+    public function resetPassword($id, $password) {
         DB::table($this->tableStaff)->where('id', $id)->update([
             'password' => Hash::make($password),
             'changed_password' => 0,
