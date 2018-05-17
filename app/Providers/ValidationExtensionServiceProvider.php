@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Facades\Staff;
 use App\Models\PositionModel;
 use App\Models\StaffModel;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 
@@ -87,6 +89,14 @@ class ValidationExtensionServiceProvider extends ServiceProvider
             if ($value && (strlen($value) < 5 || strlen($value) > 96)) {
                 return false;
             }
+            return true;
+        });
+
+        Validator::extend('match_password_old', function ($attribute, $value, $parameters, $validator) use ($staffModel){
+            if (!$value || !Hash::check($value, Staff::getPassword())) {
+                return false;
+            }
+
             return true;
         });
 

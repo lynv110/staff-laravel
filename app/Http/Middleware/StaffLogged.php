@@ -19,6 +19,11 @@ class StaffLogged
         if (!Staff::isLogged()){
             return redirect(route('_login'));
         }
+
+        if (!Staff::getChangedPassword()){
+            return redirect(route('_update_password'));
+        }
+
         return $next($request);
     }
 }
