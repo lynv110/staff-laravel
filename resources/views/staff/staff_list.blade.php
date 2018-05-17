@@ -28,6 +28,7 @@
                                 <th>{{ trans('staff.text_address') }}</th>
                                 <th>{{ trans('staff.text_email') }}</th>
                                 <th class="text-center">{{ trans('main.text_status') }}</th>
+                                <th class="text-center">{{ trans('main.text_login_last') }}</th>
                                 <th style="width: 110px;" class="text-right">{{ trans('main.text_action') }}</th>
                             </tr>
                             </thead>
@@ -45,6 +46,7 @@
                                         <option value="1" @if($filter_status == '1') selected @endif>{{ trans('main.text_enabled') }}</option>
                                     </select>
                                 </td>
+                                <td></td>
                                 <td class="text-right">
                                     <a class="btn btn-sm btn-primary filter">{{ trans('main.text_filter') }}</a>
                                 </td>
@@ -66,6 +68,7 @@
                                                 <i class="fa fa-times-circle text-danger"></i>
                                             @endif
                                         </td>
+                                        <td>{{ datetime_to_list($staff->login_at) }}</td>
                                         <td class="text-right">
                                             <a href="{{ url('staff/edit/' . $staff->id) }}" class="btn btn-sm btn-primary">{{ trans('main.text_edit') }}</a>
                                             <a href="{{ url('staff/info/' . $staff->id) }}" class="btn btn-sm btn-success">{{ trans('main.text_info') }}</a>
@@ -74,7 +77,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td colspan="7" class="text-center">
+                                    <td colspan="8" class="text-center">
                                         {{ trans('main.text_no_result') }}
                                     </td>
                                 </tr>

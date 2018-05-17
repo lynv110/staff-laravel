@@ -66,18 +66,29 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">{{ trans('staff.text_email') }}
-                                <span class="required">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="email" class="form-control col-md-7 col-xs-12" name="email" value="{{ $email }}">
-                                @if($errors->has('email'))
-                                    <div class="clearfix"></div>
-                                    <p class="alert alert-danger">{{ $errors->first('email') }}</p>
-                                @endif
+                        @if(!Staff::isRoot())
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">{{ trans('staff.text_email') }}
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" id="email" disabled class="form-control col-md-7 col-xs-12" name="email" value="{{ $email }}">
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">{{ trans('staff.text_email') }}
+                                    <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="text" id="email" class="form-control col-md-7 col-xs-12" name="email" value="{{ $email }}">
+                                    @if($errors->has('email'))
+                                        <div class="clearfix"></div>
+                                        <p class="alert alert-danger">{{ $errors->first('email') }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="birthday">{{ trans('staff.text_birthday') }}
                             </label>

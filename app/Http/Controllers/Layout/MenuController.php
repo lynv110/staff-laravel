@@ -16,7 +16,7 @@ class MenuController extends Controller {
     protected function navMenu() {
         $menus = [];
         if (Staff::isRoot()) {
-            // staff
+            // Staff
             $menus[] = [
                 'name' => trans('menu.text_staff'),
                 'icon' => 'fa fa-dot-circle-o',
@@ -24,7 +24,7 @@ class MenuController extends Controller {
                 'total' => DB::table('staff')->count() - 1,
             ];
 
-            // position
+            // Position
             $menus[] = [
                 'name' => trans('menu.text_position'),
                 'icon' => 'fa fa-dot-circle-o',
@@ -32,7 +32,7 @@ class MenuController extends Controller {
                 'total' => DB::table('position')->count(),
             ];
 
-            //part
+            // Part
             $menus[] = [
                 'name' => trans('menu.text_part'),
                 'icon' => 'fa fa-dot-circle-o',
@@ -40,18 +40,24 @@ class MenuController extends Controller {
                 'total' => DB::table('part')->count(),
             ];
 
-            // profile
+            // Profile
             $menus[] = [
                 'name' => trans('menu.text_profile'),
                 'icon' => 'fa fa-dot-circle-o',
                 'href' => url('profile ')
             ];
         } else {
-            // staff
+            // Staff
             $menus[] = [
                 'name' => trans('menu.text_staff_list'),
                 'icon' => 'fa fa-dot-circle-o',
                 'href' => url('staff')
+            ];
+            // profile
+            $menus[] = [
+                'name' => trans('menu.text_profile'),
+                'icon' => 'fa fa-dot-circle-o',
+                'href' => url('profile ')
             ];
         }
         return $menus;

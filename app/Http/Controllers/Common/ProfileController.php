@@ -19,6 +19,22 @@ class ProfileController extends Controller
     public function info(){
         $data['info'] = $this->staffModel->getById(Staff::getId());
 
+        $parts = $this->staffModel->getPartByStaff(Staff::getId());
+        $data['parts'] = [];
+        if ($parts) {
+            foreach ($parts as $part) {
+                $data['parts'][] = $part->name;
+            }
+        }
+
+        $positions = $this->staffModel->getPositionByStaff(Staff::getId());
+        $data['positions'] = [];
+        if ($positions) {
+            foreach ($positions as $position) {
+                $data['positions'][] = $position->name;
+            }
+        }
+
         $data['text_modified'] = trans('main.text_view_info');
         return view('common.profile', $data);
     }
