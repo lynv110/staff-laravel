@@ -88,4 +88,8 @@ class PartModel
     public function getPartIdUsed(){
         return DB::table($this->tableStaffPart)->select('part_id')->distinct()->get();
     }
+
+    public function getMax(){
+        return DB::table($this->tablePart)->count('id');
+    }
 }

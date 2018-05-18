@@ -94,4 +94,8 @@ class PositionModel
     public function getPositionIdUsed(){
         return DB::table($this->tableStaffPosition)->select('position_id')->distinct()->get();
     }
+
+    public function getMax(){
+        return DB::table($this->tablePosition)->count('id');
+    }
 }
