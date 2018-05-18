@@ -51,8 +51,10 @@ class MenuController extends Controller {
             $menus[] = [
                 'name' => trans('menu.text_staff_list'),
                 'icon' => 'fa fa-dot-circle-o',
-                'href' => url('staff')
+                'href' => url('staff-list'),
+                'total' => DB::table('staff')->count() - 1
             ];
+
             // profile
             $menus[] = [
                 'name' => trans('menu.text_profile'),

@@ -51,6 +51,7 @@ class PositionModel
 
         $data_sort = [
             'name' => 'name',
+            'sort_permission' => 'sort_permission',
             'sort_order' => 'sort_order',
             'status' => 'status',
             'created_at' => 'created_at',

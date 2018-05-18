@@ -45,4 +45,5 @@ return [
 
     'error_filename' => 'Tên file phải từ 3 đến 255 ký tự',
     'error_filetype' => 'Loại file không hợp lệ',
+    'error_permission' => 'Bạn không có quyền truy cập.',
 ];

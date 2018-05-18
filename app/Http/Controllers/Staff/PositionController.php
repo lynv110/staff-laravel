@@ -25,7 +25,7 @@ class PositionController extends Controller {
         $filter = [
             'filter_name' => $filterName,
             'filter_status' => $filterStatus,
-            'sort' => 'name',
+            'sort' => 'sort_permission',
             'order' => 'asc',
             'paginate' => true,
         ];

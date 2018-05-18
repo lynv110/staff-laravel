@@ -44,6 +44,13 @@ Route::middleware('staff_logged')->group(function (){
         Route::post('profile/edit', 'ProfileController@edit');
     });
 
+    // Not root account
+    // Staff
+    Route::namespace('Staff')->group(function () {
+        Route::get('staff-list', 'PublicController@index');
+        Route::get('staff/info/{id}', 'StaffController@info');
+    });
+
     Route::middleware('staff_logged_root')->group(function (){
         // Staff manager
         Route::namespace('Staff')->group(function(){
@@ -77,8 +84,6 @@ Route::middleware('staff_logged')->group(function (){
 
             Route::get('staff/edit/{id}', 'StaffController@getForm');
             Route::post('staff/edit/{id}', 'StaffController@edit');
-
-            Route::get('staff/info/{id}', 'StaffController@info');
 
             Route::any('staff/delete', 'StaffController@delete');
 
