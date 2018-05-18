@@ -170,7 +170,7 @@ class StaffController extends Controller {
         if (Request::old('birthday')) {
             $data['birthday'] = Request::old('birthday');
         } elseif (!empty($info)) {
-            $data['birthday'] = $info->birthday;
+            $data['birthday'] = date_to_list($info->birthday);
         } else {
             $data['birthday'] = '';
         }

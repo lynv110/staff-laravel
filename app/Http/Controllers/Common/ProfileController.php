@@ -109,7 +109,7 @@ class ProfileController extends Controller
         if (Request::old('birthday')) {
             $data['birthday'] = Request::old('birthday');
         } else {
-            $data['birthday'] = $info->birthday;
+            $data['birthday'] = date_to_list($info->birthday);
         }
 
         $data['text_modified'] = !empty($info) ? trans('main.text_edit') : trans('main.text_add');

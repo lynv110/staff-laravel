@@ -50,5 +50,75 @@
     </div>
 
 </div>
+@else
+    <div class="x_panel">
+        <div class="x_title">
+            <h2>{{ trans('common/dashboard.text_welcome') . ' ' . Staff::getName() }}</h2>
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <h4>{{ trans('common/dashboard.text_information') }}</h4>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_name') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    {{ $info->name }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_telephone') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    {{ $info->telephone }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_address') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    {{ $info->address }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_gender') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    @if($info->gender == '0')
+                        {{ trans('staff.text_male') }}
+                    @elseif($info->gender == '1')
+                        {{ trans('staff.text_female') }}
+                    @else
+                        {{ trans('staff.text_other') }}
+                    @endif
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_birthday') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    {{ $info->birthday }}
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_part') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    @if($parts)
+                        <ul>
+                            @foreach($parts as $part)
+                                <li>{{ $part }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="control-label col-sm-2 col-xs-12 " for="name">{{ trans('staff.text_position') }}</label>
+                <div class="col-sm-10 col-xs-12">
+                    @if($positions)
+                        <ul>
+                            @foreach($positions as $position)
+                                <li>{{ $position }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
 @endif
 @endsection

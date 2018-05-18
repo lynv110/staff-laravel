@@ -37,3 +37,13 @@ if (!function_exists('date_to_list')){
         }
     }
 }
+
+if (!function_exists('date_to_form')){
+    function date_to_form($date = null){
+        if (!is_null($date) && $date && (substr($date, 0, 2) != '00')) {
+            return date('Y-m-d', strtotime($date));
+        }else{
+            return '';
+        }
+    }
+}

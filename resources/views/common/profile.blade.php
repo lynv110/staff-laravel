@@ -49,7 +49,7 @@
                             <div class="form-group row">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12 text-right" for="name">{{ trans('staff.text_birthday') }}</label>
                                 <div class="col-md-9 col-sm-9 col-xs-12">
-                                    {{ $info->birthday }}
+                                    {{ date_to_list($info->birthday) }}
                                 </div>
                             </div>
                             @if(!Staff::isRoot())
