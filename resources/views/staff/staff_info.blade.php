@@ -7,9 +7,13 @@
                 <div class="x_title">
                     <h2>{{ $text_modified }}</h2>
                     <div class="pull-right">
+                        @if(Staff::isRoot())
                         <a class="btn btn-danger btn-sm" href="{{ url('staff/reset-password/' . $info->id) }}"><i class="fa fa-refresh"></i> {{ trans('main.text_reset_pass') }}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <a class="btn btn-primary btn-sm" href="{{ url('staff/edit/' . $info->id) }}"><i class="fa fa-plus"></i> {{ trans('main.text_edit') }}</a>
                         <a class="btn btn-warning btn-sm" href="{{ $cancel }}"><i class="fa fa-times"></i> {{ trans('main.text_cancel') }}</a>
+                        @else
+                            <a class="btn btn-warning btn-sm" href="{{ url('staff-list') }}"><i class="fa fa-times"></i> {{ trans('main.text_cancel') }}</a>
+                        @endif
                     </div>
                     <div class="clearfix"></div>
                 </div>

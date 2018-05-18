@@ -1,5 +1,6 @@
 <?php
 
 return [
-  'limit' => 5
+  'limit' => 2,
+  'open_send_mail' => false,
 ];

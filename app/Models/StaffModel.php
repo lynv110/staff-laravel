@@ -163,6 +163,10 @@ class StaffModel {
         return DB::table($this->tableStaffPosition)->where('staff_id', $id)->get();
     }
 
+    public function getPermissionPositionByStaff($id) {
+        return DB::table($this->tableStaffPosition)->select($this->tablePosition . '.sort_permission')->leftJoin($this->tablePosition, $this->tableStaffPosition . '.position_id', '=', $this->tablePosition . '.id')->where($this->tableStaffPosition . '.staff_id', $id)->get();
+    }
+
     public function checkEmailExist($email) {
         return DB::table($this->tableStaff)->where('email', $email)->first();
     }

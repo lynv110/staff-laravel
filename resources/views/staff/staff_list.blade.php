@@ -24,11 +24,13 @@
                             <tr>
                                 <th><input type="checkbox" class="flat check-all"></th>
                                 <th>{{ trans('staff.text_name') }}</th>
+                                @if(Staff::isRoot())
                                 <th>{{ trans('staff.text_telephone') }}</th>
                                 <th>{{ trans('staff.text_address') }}</th>
                                 <th>{{ trans('staff.text_email') }}</th>
                                 <th class="text-center">{{ trans('main.text_status') }}</th>
                                 <th class="text-center">{{ trans('main.text_login_last') }}</th>
+                                @endif
                                 <th style="width: 110px;" class="text-right">{{ trans('main.text_action') }}</th>
                             </tr>
                             </thead>
@@ -36,6 +38,7 @@
                             <tr>
                                 <td></td>
                                 <td><input type="text" class="form-control" value="{{ $filter_name }}" name="filter_name"></td>
+                                @if(Staff::isRoot())
                                 <td><input type="text" class="form-control" value="{{ $filter_telephone }}" name="filter_telephone"></td>
                                 <td></td>
                                 <td><input type="text" class="form-control" value="{{ $filter_email }}" name="filter_email"></td>
@@ -47,6 +50,7 @@
                                     </select>
                                 </td>
                                 <td></td>
+                                @endif
                                 <td class="text-right">
                                     <a class="btn btn-sm btn-primary filter">{{ trans('main.text_filter') }}</a>
                                 </td>
@@ -58,6 +62,7 @@
                                             <input type="checkbox" value="{{ $staff->id }}" name="id[]" class="flat check">
                                         </td>
                                         <td>{{ $staff->name }}</td>
+                                        @if(Staff::isRoot())
                                         <td>{{ $staff->telephone }}</td>
                                         <td>{{ $staff->address }}</td>
                                         <td>{{ $staff->email }}</td>
@@ -69,9 +74,14 @@
                                             @endif
                                         </td>
                                         <td>{{ datetime_to_list($staff->login_at) }}</td>
+                                        @endif
                                         <td class="text-right">
+                                            @if(Staff::isRoot())
                                             <a href="{{ url('staff/edit/' . $staff->id) }}" class="btn btn-sm btn-primary">{{ trans('main.text_edit') }}</a>
                                             <a href="{{ url('staff/info/' . $staff->id) }}" class="btn btn-sm btn-success">{{ trans('main.text_info') }}</a>
+                                            @else
+                                                <a href="{{ url('staff/info/' . $staff->id) }}" class="btn btn-sm btn-success">{{ trans('main.text_info') }}</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

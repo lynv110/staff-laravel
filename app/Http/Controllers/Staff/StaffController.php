@@ -225,6 +225,54 @@ class StaffController extends Controller {
             flash_error(trans('main.error_error'));
             return redirect('staff');
         }
+        // Get information of my self and compare permission
+        $thisPartIds = [];
+        $thisPositionPmss = [];
+
+        $thisPartIdTmps = $this->staffModel->getIdPartByStaff(Staff::getId());
+        $thisPositionPmsTmps = $this->staffModel->getPermissionPositionByStaff(Staff::getId());
+
+        foreach ($thisPartIdTmps as $thisPositionIdTmp) {
+            $thisPartIds[] = $thisPositionIdTmp->part_id;
+        }
+
+        foreach ($thisPositionPmsTmps as $thisPositionPmsTmp) {
+            $thisPositionPmss[] = $thisPositionPmsTmp->sort_permission;
+        }
+
+        // Get information of $id and compare
+        $partViewInfo = false;
+        $positionViewInfo = false;
+
+        $partIdTmps = $this->staffModel->getIdPartByStaff($id);
+        $positionPmsTmps = $this->staffModel->getPermissionPositionByStaff($id);
+
+        foreach ($partIdTmps as $partIdTmp) {
+            if (in_array($partIdTmp->part_id, $thisPartIds)) {
+                $partViewInfo = true;
+                break;
+            }
+        }
+
+        $positionPmsArrayTmps = [];
+        foreach ($positionPmsTmps as $positionPmsTmp) {
+            $positionPmsArrayTmps[] = $positionPmsTmp->sort_permission;
+        }
+
+        if ($thisPositionPmss && $positionPmsArrayTmps && (min($thisPositionPmss) < min($positionPmsArrayTmps))) {
+            $positionViewInfo = true;
+        }
+
+        if (Staff::getId() == $id) {
+            $partViewInfo = true;
+            $positionViewInfo = true;
+        }
+
+        if (!Staff::isRoot() && (!$partViewInfo || !$positionViewInfo)) {
+            flash_error(trans('main.error_permission'));
+            return redirect('staff');
+        }
+        // End check permission
 
         $data['info'] = $this->staffModel->getById((int)$id);
 
@@ -398,6 +446,8 @@ class StaffController extends Controller {
             'welcome' => isset($info['data']['welcome']) ? $info['data']['welcome'] : trans('email.hello'),
         ];
 
-        mail_send($mail_init, $info, 'email.mail');
+        if (config('main.open_send_mail')){
+            mail_send($mail_init, $info, 'email.mail');
+        }
     }
 }
