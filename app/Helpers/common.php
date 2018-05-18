@@ -27,3 +27,13 @@ if (!function_exists('datetime_to_list')){
         }
     }
 }
+
+if (!function_exists('date_to_list')){
+    function date_to_list($date = null){
+        if (!is_null($date) && $date && (substr($date, 0, 4) != '0000')) {
+            return date('d-m-Y', strtotime($date));
+        }else{
+            return '';
+        }
+    }
+}

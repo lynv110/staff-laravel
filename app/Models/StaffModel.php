@@ -151,6 +151,11 @@ class StaffModel {
         return DB::table($this->tableStaff)->whereRaw($where)->orderByRaw($order)->get();
     }
 
+    public function getListWhereIn($field, $data) {
+
+        return DB::table($this->tableStaff)->whereIn($field, $data)->orderBy('name')->get();
+    }
+
     public function getById($id) {
         return DB::table($this->tableStaff)->where('id', $id)->first();
     }

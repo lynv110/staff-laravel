@@ -7,11 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class PublicModel {
-    protected $tablePart = 'part';
-    protected $tablePosition = 'position';
     protected $tableStaff = 'staff';
-    protected $tableStaffPart = 'staff_part';
-    protected $tableStaffPosition = 'staff_position';
 
     public function getList($data = []) {
         $where = 'is_root = 0 AND status = 1';
@@ -24,6 +20,11 @@ class PublicModel {
             }
         }
 
-        return DB::table($this->tableStaff)->select('id', 'name')->whereRaw($where)->orderBy('name')->get();
+        return DB::table($this->tableStaff)->whereRaw($where)->orderBy('name')->get();
+    }
+
+    public function getListWhereIn($field, $data) {
+
+        return DB::table($this->tableStaff)->whereIn($field, $data)->orderBy('name')->get();
     }
 }
