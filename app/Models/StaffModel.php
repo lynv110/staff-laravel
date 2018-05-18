@@ -250,4 +250,12 @@ class StaffModel {
             'modified_at' => date('Y-m-d H:i:s'),
         ]);
     }
+
+    public function getMax(){
+        return DB::table($this->tableStaff)->count('id') - 1;
+    }
+
+    public function latestLogged(){
+        return DB::table($this->tableStaff)->where('is_root', 0)->orderBy('login_at', 'desc')->limit(5)->get();
+    }
 }
