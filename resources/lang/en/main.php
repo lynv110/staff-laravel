@@ -37,6 +37,10 @@ return [
     'text_delete_image' => 'Xóa ảnh',
     'text_uploaded' => 'Upload thành công',
     'text_login_last' => 'Đăng nhập cuối',
+    'text_male' => 'Nam',
+    'text_female' => 'Nữ',
+    'text_other' => 'Khác',
+    'text_confirm_export' => 'Bạn có muốn export dữ liệu?',
 
     'error_form' => 'Hãy kiểm tra lại các trường và nhập đủ thông tin cần thiết',
     'error_error' => 'Có lỗi xảy ra trong quá trình xử lý',
@@ -46,4 +50,17 @@ return [
     'error_filename' => 'Tên file phải từ 3 đến 255 ký tự',
     'error_filetype' => 'Loại file không hợp lệ',
     'error_permission' => 'Bạn không có quyền truy cập.',
+
+    'export_staff_list' => 'Xuất DS nhân viên',
+    'export_staff_list_select' => 'Xuất DS nhân viên đã chọn',
+
+    'export_title' => 'Danh sách nhân viên',
+    'export_column_a' => 'STT',
+    'export_column_b' => 'Họ & tên',
+    'export_column_c' => 'Số điện thoại',
+    'export_column_d' => 'Địa chỉ',
+    'export_column_e' => 'Giới tính',
+    'export_column_f' => 'Email',
+    'export_column_g' => 'Tên đăng nhập',
+    'export_column_h' => 'Ngày sinh',
 ];

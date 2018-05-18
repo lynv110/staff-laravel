@@ -48,6 +48,7 @@ Route::middleware('staff_logged')->group(function (){
     // Staff
     Route::namespace('Staff')->group(function () {
         Route::get('staff-list', 'PublicController@index');
+        Route::any('staff-export', 'PublicController@export');
         Route::get('staff/info/{id}', 'StaffController@info');
     });
 
@@ -88,6 +89,8 @@ Route::middleware('staff_logged')->group(function (){
             Route::any('staff/delete', 'StaffController@delete');
 
             Route::any('staff/reset-password/{id?}', 'StaffController@resetPassword');
+
+            Route::any('staff/export', 'StaffController@export');
         });
     });
 });

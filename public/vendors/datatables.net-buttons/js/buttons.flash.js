@@ -521,7 +521,7 @@ var _filename = function ( config, incExtension )
 };
 
 /**
- * Get the sheet name for Excel exports.
+ * Get the sheet name for ExcelHandle exports.
  *
  * @param {object}  config       Button configuration
  */
@@ -687,7 +687,7 @@ var flashButton = {
 
 
 /**
- * Convert from numeric position to letter for column names in Excel
+ * Convert from numeric position to letter for column names in ExcelHandle
  * @param  {int} n Column number
  * @return {string} Column letter(s) name
  */
@@ -738,7 +738,7 @@ function _createNode( doc, nodeName, opts ){
 }
 
 /**
- * Get the width for an Excel column based on the contents of that column
+ * Get the width for an ExcelHandle column based on the contents of that column
  * @param  {object} data Data for export
  * @param  {int}    col  Column index
  * @return {int}         Column width
@@ -846,7 +846,7 @@ function _xlsxToStrings( obj ) {
 	} );
 }
 
-// Excel - Pre-defined strings to build a basic XLSX file
+// ExcelHandle - Pre-defined strings to build a basic XLSX file
 var excelStrings = {
 	"_rels/.rels":
 		'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'+
@@ -924,7 +924,7 @@ var excelStrings = {
 				'<fill>'+
 					'<patternFill patternType="none" />'+
 				'</fill>'+
-				'<fill/>'+ // Excel appears to use this as a dotted background regardless of values
+				'<fill/>'+ // ExcelHandle appears to use this as a dotted background regardless of values
 				'<fill>'+
 					'<patternFill patternType="solid">'+
 						'<fgColor rgb="FFD9D9D9" />'+
@@ -1125,12 +1125,12 @@ DataTable.ext.buttons.csvFlash = $.extend( {}, flashButton, {
 	escapeChar: '"'
 } );
 
-// Excel save file - this is really a CSV file using UTF-8 that Excel can read
+// ExcelHandle save file - this is really a CSV file using UTF-8 that ExcelHandle can read
 DataTable.ext.buttons.excelFlash = $.extend( {}, flashButton, {
 	className: 'buttons-excel buttons-flash',
 
 	text: function ( dt ) {
-		return dt.i18n( 'buttons.excel', 'Excel' );
+		return dt.i18n( 'buttons.excel', 'ExcelHandle' );
 	},
 
 	action: function ( e, dt, button, config ) {

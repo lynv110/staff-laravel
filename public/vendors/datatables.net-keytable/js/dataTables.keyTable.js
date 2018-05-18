@@ -342,7 +342,7 @@ $.extend( KeyTable.prototype, {
 
 		editor.inline( this.s.lastFocus.index() );
 
-		// Excel style - select all text
+		// ExcelHandle style - select all text
 		var input = $('div.DTE input, div.DTE textarea');
 		if ( input.length ) {
 			input[0].select();
@@ -771,7 +771,7 @@ KeyTable.defaults = {
 	columns: '', // all
 
 	/**
-	 * Editor instance to automatically perform Excel like navigation
+	 * Editor instance to automatically perform ExcelHandle like navigation
 	 * @type {Editor}
 	 */
 	editor: null,

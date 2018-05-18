@@ -5,9 +5,10 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>{{ trans('main.text_list') }}</h2>
+                    <h2>{{ trans('main.text_list') }} ({{ $count_staff }})</h2>
                     <div class="pull-right">
-
+                        <a class="btn btn-success btn-sm" onclick="return confirm('{{ trans('main.text_confirm_export') }}') ? $('#form').attr('action', '{{ url('staff-export') }}').submit() : false;"><i class="fa fa-file-excel-o"></i> {{ trans('main.export_staff_list') }}
+                        </a>
                     </div>
                     <div class="clearfix"></div>
                 </div>

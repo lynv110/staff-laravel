@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Staff;
 
+use App\Facades\Export;
 use App\Facades\Staff;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StaffRequest;
@@ -429,7 +430,102 @@ class StaffController extends Controller {
         return redirect('staff');
     }
 
-    protected function sendMail($info){
+    public function export() {
+
+        if (Request::input('id')) {
+            $staffs = $this->staffModel->getListWhereIn('id', Request::input('id'));
+
+            $row = 1;
+            $lists = [];
+            foreach ($staffs as $staff) {
+                if ($staff->gender == 0) {
+                    $gender = trans('main.text_male');
+                } elseif ($staff->gender == 1) {
+                    $gender = trans('main.text_female');
+                } else {
+                    $gender = trans('main.text_other');
+                }
+                $lists[] = [
+                    'a' => $row,
+                    'b' => $staff->name,
+                    'c' => $staff->telephone,
+                    'd' => $staff->address,
+                    'e' => $gender,
+                    'f' => $staff->email,
+                    'g' => $staff->username,
+                    'h' => date_to_list($staff->birthday),
+                ];
+                $row++;
+            }
+
+            $arrayInfo = [
+                'title' => trans('main.export_title'),
+                'subject' => trans('main.export_title'),
+                'file_name' => 'staff-list',
+                'column' => [
+                    'a' => trans('main.export_column_a'),
+                    'b' => trans('main.export_column_b'),
+                    'c' => trans('main.export_column_c'),
+                    'd' => trans('main.export_column_d'),
+                    'e' => trans('main.export_column_e'),
+                    'f' => trans('main.export_column_f'),
+                    'g' => trans('main.export_column_g'),
+                    'h' => trans('main.export_column_h'),
+                ],
+                'info' => $lists
+            ];
+
+            Export::export($arrayInfo);
+
+        } else {
+            $staffs = $this->staffModel->getList();
+            $row = 1;
+            $lists = [];
+            foreach ($staffs as $staff) {
+                if ($staff->gender == 0) {
+                    $gender = trans('main.text_male');
+                } elseif ($staff->gender == 1) {
+                    $gender = trans('main.text_female');
+                } else {
+                    $gender = trans('main.text_other');
+                }
+                $lists[] = [
+                    'a' => $row,
+                    'b' => $staff->name,
+                    'c' => $staff->telephone,
+                    'd' => $staff->address,
+                    'e' => $gender,
+                    'f' => $staff->email,
+                    'g' => $staff->username,
+                    'h' => date_to_list($staff->birthday),
+                ];
+                $row++;
+            }
+
+            $arrayInfo = [
+                'title' => trans('main.export_title'),
+                'subject' => trans('main.export_title'),
+                'file_name' => 'staff-list',
+                'column' => [
+                    'a' => trans('main.export_column_a'),
+                    'b' => trans('main.export_column_b'),
+                    'c' => trans('main.export_column_c'),
+                    'd' => trans('main.export_column_d'),
+                    'e' => trans('main.export_column_e'),
+                    'f' => trans('main.export_column_f'),
+                    'g' => trans('main.export_column_g'),
+                    'h' => trans('main.export_column_h'),
+                ],
+                'info' => $lists
+            ];
+
+            Export::export($arrayInfo);
+        }
+
+        return redirect('staff');
+    }
+
+    protected function sendMail($info) {
 
         $mail_init = [
             'name_from' => 'Staff Administrator',
@@ -446,7 +542,7 @@ class StaffController extends Controller {
             'welcome' => isset($info['data']['welcome']) ? $info['data']['welcome'] : trans('email.hello'),
         ];
 
-        if (config('main.open_send_mail')){
+        if (config('main.open_send_mail')) {
             mail_send($mail_init, $info, 'email.mail');
         }
     }

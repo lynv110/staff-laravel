@@ -52,7 +52,7 @@ class MenuController extends Controller {
                 'name' => trans('menu.text_staff_list'),
                 'icon' => 'fa fa-dot-circle-o',
                 'href' => url('staff-list'),
-                'total' => DB::table('staff')->count() - 1
+                //'total' => DB::table('staff')->count() - 1
             ];
 
             // profile

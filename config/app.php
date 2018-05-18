@@ -187,6 +187,7 @@ return [
         App\Providers\EmailHandleServiceProvider::class,
         App\Providers\ImageHandleServiceProvider::class,
         App\Providers\ValidationExtensionServiceProvider::class,
+        App\Providers\ExportServiceProvider::class,
 
     ],
 
@@ -238,6 +239,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Staff' => App\Facades\Staff::class,
         'FlashHandle' => App\Facades\FlashHandle::class,
+        'Export' => App\Facades\Export::class,
     ],
 
 ];
