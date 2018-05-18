@@ -15,6 +15,13 @@ class MenuController extends Controller {
 
     protected function navMenu() {
         $menus = [];
+
+        $menus[] = [
+            'name' => trans('menu.text_dashboard'),
+            'icon' => 'fa fa-dot-circle-o',
+            'href' => url('dashboard'),
+        ];
+
         if (Staff::isRoot()) {
             // Staff
             $menus[] = [
