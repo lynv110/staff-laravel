@@ -165,7 +165,7 @@
     <script>
         $('.select-multiple').select2();
         $('#birthday').datetimepicker({
-            format: 'YYYY-MM-DD'
+            format: 'DD-MM-YYYY'
         });
 
         $('form').delegate('.password-info', 'click', function (e) {

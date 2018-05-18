@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Facades\Staff;
 use App\Models\PartModel;
 use App\Models\PositionModel;
 use App\Models\StaffModel;
@@ -26,6 +27,24 @@ class DashboardController extends Controller
         $data['total_position'] = $this->positionModel->getMax();
 
         $data['latests'] = $this->staffModel->latestLogged();
+
+        $data['info'] = $this->staffModel->getById(Staff::getId());
+
+        $parts = $this->staffModel->getPartByStaff(Staff::getId());
+        $data['parts'] = [];
+        if ($parts) {
+            foreach ($parts as $part) {
+                $data['parts'][] = $part->name;
+            }
+        }
+
+        $positions = $this->staffModel->getPositionByStaff(Staff::getId());
+        $data['positions'] = [];
+        if ($positions) {
+            foreach ($positions as $position) {
+                $data['positions'][] = $position->name;
+            }
+        }
 
         return view('common.dashboard', $data);
     }
