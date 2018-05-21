@@ -29,6 +29,12 @@ Route::namespace('Common')->group(function () {
     Route::post('update-password', 'UpdatePasswordController@change');
 
     Route::get('logout', 'LoginController@doLogout')->name('_logout');
+
+    Route::get('forgot-password', 'ForgotController@getForgotForm');
+    Route::post('forgot-password', 'ForgotController@forgot');
+
+    Route::get('change-password/{token}', 'ForgotController@getChangeForm');
+    Route::post('change-password/{token}', 'ForgotController@change');
 });
 
 // Logged

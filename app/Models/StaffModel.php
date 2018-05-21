@@ -176,6 +176,10 @@ class StaffModel {
         return DB::table($this->tableStaff)->where('email', $email)->first();
     }
 
+    public function checkTokenExist($token) {
+        return DB::table($this->tableStaff)->where('token', $token)->first();
+    }
+
     public function checkUsernameExist($username) {
         return DB::table($this->tableStaff)->where('username', $username)->first();
     }
@@ -251,11 +255,25 @@ class StaffModel {
         ]);
     }
 
+    public function changePassword($password, $token) {
+        DB::table($this->tableStaff)->where('token', $token)->update([
+            'password' => Hash::make($password),
+            'token' => '',
+            'modified_at' => date('Y-m-d H:i:s'),
+        ]);
+    }
+
     public function getMax(){
         return DB::table($this->tableStaff)->count('id') - 1;
     }
 
     public function latestLogged(){
         return DB::table($this->tableStaff)->where('is_root', 0)->orderBy('login_at', 'desc')->limit(5)->get();
+    }
+
+    public function forgot($email, $token) {
+        DB::table($this->tableStaff)->where('email', $email)->update([
+            'token' => $token,
+        ]);
     }
 }

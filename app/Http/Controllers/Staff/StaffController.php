@@ -532,18 +532,18 @@ class StaffController extends Controller {
             'name_to' => isset($info['name_to']) ? $info['name_to'] : '',
             'from' => 'admin@staff.com',
             'to' => isset($info['email_to']) ? $info['email_to'] : '',
-            'subject' => isset($info['subject']) ? $info['subject'] : trans('email.hello'),
+            'subject' => isset($info['subject']) ? $info['subject'] : trans('mail.hello'),
         ];
-        $info = [
+        $data = [
             'name' => isset($info['data']['name']) ? $info['data']['name'] : '',
             'url_login' => url('/'),
             'username' => isset($info['data']['username']) ? $info['data']['username'] : '',
             'password' => isset($info['data']['password']) ? $info['data']['password'] : '',
-            'welcome' => isset($info['data']['welcome']) ? $info['data']['welcome'] : trans('email.hello'),
+            'welcome' => isset($info['data']['welcome']) ? $info['data']['welcome'] : trans('mail.hello'),
         ];
 
         if (config('main.open_send_mail')) {
-            mail_send($mail_init, $info, 'email.mail');
+            mail_send($mail_init, $data, 'email.mail');
         }
     }
 }

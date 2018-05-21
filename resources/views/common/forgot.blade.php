@@ -22,9 +22,9 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-                <form action="{{ url('login') }}" method="post">
+                <form action="{{ url('forgot-password') }}" method="post">
                     {{ csrf_field() }}
-                    <h1>{{ trans('login.btn_login') }}</h1>
+                    <h1>{{ trans('common/forgot.text_heading') }}</h1>
 
                     @if ($errors->any())
                         <div class="alert alert-danger">
@@ -53,14 +53,11 @@
                     @endif
 
                     <div>
-                        <input type="text" class="form-control" value="{{ old('username') }}" placeholder="{{ trans('login.text_username') }}" name="username"/>
+                        <input type="email" class="form-control" value="{{ old('email') }}" placeholder="{{ trans('common/forgot.text_email') }}" name="email"/>
                     </div>
+
                     <div>
-                        <input type="password" class="form-control" name="password" placeholder="{{ trans('login.text_password') }}"/>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-primary submit">{{ trans('login.btn_login') }}</button>
-                        <a class="reset_pass" href="{{ url('forgot-password') }}">{{ trans('common/forgot.text_forgot') }}</a>
+                        <button type="submit" class="btn btn-primary submit">{{ trans('common/forgot.btn_forgot') }}</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
